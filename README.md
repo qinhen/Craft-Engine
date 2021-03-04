@@ -1,6 +1,6 @@
 # Craft-Engine
 
-# History
+## History
 2019/6/?? - 2020/6/30 v0.00
 
 
@@ -82,9 +82,22 @@ add graphic::AnimationSlover
 
 
 
+## Dependency
+|base|Version|
+|:---|:--:|
+|glew/vulkan-loader||
+|stb-img||
 
-# Dependency
-base:glew/vulkan-loader, stb-img
-optinal:ffmpeg, libyuv, rapidjson, sqlite3, assimp, openAL, Lua
+|optinal|Version|
+|:---|:--:|
+|ffmpeg||
+|libyuv||
+|rapidjson||
+|sqlite3||
+|assimp||
+|openAL||
+|Lua||
 
-Craft-Engine是一个包含Gui（最主要的）、3D图形渲染、多媒体播放、3D线性代数、简单网络通信等多个方面相关代码的集合，是本人在学习过程中编写的一部分可重用的的代码。
+
+## Description
+Craft-Engine是一个使用c++，包含Gui（最主要的）、3D图形渲染、多媒体播放、3D线性代数、简单网络通信等多个方面相关代码的集合，是本人在学习过程中编写的一部分可重用的的代码。
