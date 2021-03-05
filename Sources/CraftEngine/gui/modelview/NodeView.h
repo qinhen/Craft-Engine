@@ -703,7 +703,7 @@ namespace CraftEngine
 						info.translate = vec2(0);
 						info.rotation = 0;
 						info.lineWidth = 2;
-						painter.drawPolygonEx(info, it.second->linkColor);
+						painter.drawPolyline(it.second->linkPolygon.data(), it.second->linkPolygon.size(), false, it.second->linkColor);
 					}
 
 					// draw current node frame
@@ -739,7 +739,7 @@ namespace CraftEngine
 						info.translate = vec2(0);
 						info.rotation = 0;
 						info.lineWidth = 3;
-						painter.drawPolygonEx(info, m_linkColor);
+						painter.drawPolyline(m_tempLinkVertexList, 20, false, m_linkColor);
 					}
 
 					onPaint_drawScrollBar();
