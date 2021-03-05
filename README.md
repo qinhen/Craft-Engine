@@ -101,3 +101,31 @@ add graphic::AnimationSlover
 
 ## Description
 Craft-Engine是一个使用c++，包含Gui（最主要的）、3D图形渲染、多媒体播放、3D线性代数、简单网络通信等多个方面相关代码的集合，是本人在学习过程中编写的一部分可重用的的代码。
+
+## Example
+#### 01.Quick Start
+``` C++
+#include "CraftEngine/gui/Gui.h"
+using namespace CraftEngine;
+int main()
+{
+	gui::Application app;
+	auto main_window = new gui::MainWindow(L"Craft-Engine Example-01: MainWindow");
+	main_window->exec();
+}
+```
+
+
+#### 15.Pre-Calcular Sky Model
+![Pre-Calcular Sky Model](https://github.com/qinhen/Craft-Engine/blob/main/Images/Example15.PNG?raw=true)
+
+## Sub Projects
+
+#### MediaPlayer
+
+#### SkeletonAnimation
+
+#### Backend for DearImgui
+
+#### Cpu-Path-Tracing
+
