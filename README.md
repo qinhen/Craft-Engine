@@ -61,7 +61,7 @@ support concept such as Memory, Buffer, Image, Sampler, Framebuffer, Device, Ima
 support a lot of image operations, such as nearest/linear/mipmap sample
 support a lot of image format, such as R8G8B8A8_Unorm, R32G32B32A32_float...
 
-2020/12/26 v0.16
+2020/12/26 v0.17
 [soft3d]add rasterization graphics pipeline
 support drawing triangle\line\point by rasterization graphics pipeline
 support multi-threads rasterization base on the quantity of logical-cpu-core on machine 
@@ -114,10 +114,14 @@ int main()
 	main_window->exec();
 }
 ```
-
+#### 12.Material Editor
+![12](https://github.com/qinhen/Craft-Engine/blob/main/Images/Example12.PNG?raw=true)
 
 #### 15.Pre-Calcular Sky Model
-![Pre-Calcular Sky Model](https://github.com/qinhen/Craft-Engine/blob/main/Images/Example15.PNG?raw=true)
+![15](https://github.com/qinhen/Craft-Engine/blob/main/Images/Example15.PNG?raw=true)
+
+#### 17.Cpu-Gui-Rendering&Cpu-Rasterization
+![17](https://github.com/qinhen/Craft-Engine/blob/main/Images/Example17.PNG?raw=true)
 
 ## Sub Projects
 
