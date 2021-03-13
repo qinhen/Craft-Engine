@@ -90,7 +90,7 @@ namespace CraftEngine
 				{
 					glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 					Color background_color = GuiColorStyle::getBackgroundColor();
-					glClearColor(background_color.r / 255.0f, background_color.g / 255.0f, background_color.b / 255.0f, background_color.a / 255.0f);
+					glClearColor(background_color.r / 255.0f, background_color.g / 255.0f, background_color.b / 255.0f, 0.0);
 					glViewport(0, 0, m_renderWidth, m_renderHeight);
 					glClear(GL_COLOR_BUFFER_BIT);
 					glDisable(GL_DEPTH_TEST);//Ω˚”√…Ó∂»≤‚ ‘

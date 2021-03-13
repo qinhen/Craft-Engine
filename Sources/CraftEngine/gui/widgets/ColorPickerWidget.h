@@ -55,7 +55,7 @@ namespace CraftEngine
 
 				ColorRingWidget(Widget* parent) :Widget(parent)
 				{
-					this->setDragable(true);
+					//this->setDragable(true);
 					//this->getPalette().mFillMode = CraftEngine::gui::Palette::eFillMode_Color;
 					//this->getPalette().mFrameMode = CraftEngine::gui::Palette::eFrameMode_Surround;
 					m_power = vec3(1, 0, 0);
@@ -224,7 +224,7 @@ namespace CraftEngine
 						setHValue(val);
 					}
 					else
-						return;
+						Widget::onDrag(mouseEvent);
 					craft_engine_gui_emit(colorChanged, m_curColor);
 				}
 
@@ -519,6 +519,7 @@ namespace CraftEngine
 
 			ColorPickerWidget(Widget* parent) : Widget(Rect(0, 0, 250, 200), parent)
 			{
+				setDragable(true);
 				this->getPalette().mFillMode = CraftEngine::gui::Palette::eFillMode_Color;
 				this->getPalette().mFrameMode = CraftEngine::gui::Palette::eFrameMode_Surround;
 				m_colorRingWidget = new ColorRingWidget(this);

@@ -1494,17 +1494,5 @@ namespace CraftEngine
 
 
 
-		class MemoryPool
-		{
-		private:
-			void* data;
-		public:
-			MemoryPool(size_t size)
-			{
-				data = new char[size];
-			}
-		};
-
-
 	}
 }

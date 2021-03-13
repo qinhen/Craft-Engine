@@ -40,6 +40,7 @@
 #endif
 
 
+#define CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_INLINE
 
 namespace CraftEngine
 {
@@ -52,80 +53,80 @@ namespace CraftEngine
 		// Math Constants
 		// * pi
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType pi() { return static_cast<genType>(3.1415926535897932384626433832795); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType pi() { return static_cast<genType>(3.1415926535897932384626433832795); }
 		// * 2*pi
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType two_pi() { return static_cast<genType>(6.28318530717958647692528676655900576); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType two_pi() { return static_cast<genType>(6.28318530717958647692528676655900576); }
 		// * pi/2
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType half_pi() { return static_cast<genType>(1.57079632679489661923132169163975144); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType half_pi() { return static_cast<genType>(1.57079632679489661923132169163975144); }
 		// * pi/4
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType quarter_pi() { return static_cast<genType>(0.785398163397448309615660845819875721); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType quarter_pi() { return static_cast<genType>(0.785398163397448309615660845819875721); }
 		// * pi的倒数
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType one_over_pi() { return static_cast<genType>(0.318309886183790671537767526745028724); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType one_over_pi() { return static_cast<genType>(0.318309886183790671537767526745028724); }
 		// * 自然常数
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType e() { return static_cast<genType>(2.71828182845904523536); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType e() { return static_cast<genType>(2.71828182845904523536); }
 		// * 黄金分割率
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType golden_ratio() { return static_cast<genType>(1.61803398874989484820458683436563811); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType golden_ratio() { return static_cast<genType>(1.61803398874989484820458683436563811); }
 
 		template<typename genType = float>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR genType epsilon() { return std::numeric_limits<genType>::epsilon(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR genType epsilon() { return std::numeric_limits<genType>::epsilon(); }
 		//// Physics Constants
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType AvogadroConstant() { return static_cast<genType>(6.0221367E-23); }
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType GasConstant() { return static_cast<genType>(8.314472); }
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType PlanckConstant() { return static_cast<genType>(6.63e-34); }
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType BoltzmannConstant() { return static_cast<genType>(1.3806485279E-23); }
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType Permittivity() { return static_cast<genType>(8.854187817E-12); }
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType ElectronMass() { return static_cast<genType>(9.10956E-31); }
-		//template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType ElectronCharge() { return static_cast<genType>(1.602176634E-19); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType AvogadroConstant() { return static_cast<genType>(6.0221367E-23); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType GasConstant() { return static_cast<genType>(8.314472); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType PlanckConstant() { return static_cast<genType>(6.63e-34); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType BoltzmannConstant() { return static_cast<genType>(1.3806485279E-23); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType Permittivity() { return static_cast<genType>(8.854187817E-12); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType ElectronMass() { return static_cast<genType>(9.10956E-31); }
+		//template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType ElectronCharge() { return static_cast<genType>(1.602176634E-19); }
 
 
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType min(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return x < y ? x : y; }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType max(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return x > y ? x : y; }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType sum(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return x + y; }
-		template<typename genType, typename...Args, class = typename std::enable_if_t<(sizeof...(Args) > 1)>> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType min(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return min<genType>(arg, min<genType>(args...)); }
-		template<typename genType, typename...Args, class = typename std::enable_if_t<(sizeof...(Args) > 1)>> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType max(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return max<genType>(arg, max<genType>(args...)); }
-		template<typename genType, typename...Args, class = typename std::enable_if_t<(sizeof...(Args) > 1)>> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType sum(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return sum<genType>(arg, sum<genType>(args...)); }
-		template<typename genType, typename...Args> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType average(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return sum(arg, args...) / (sizeof...(args) + 1); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType min(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return x < y ? x : y; }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType max(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return x > y ? x : y; }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType sum(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return x + y; }
+		template<typename genType, typename...Args, class = typename std::enable_if_t<(sizeof...(Args) > 1)>> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType min(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return min<genType>(arg, min<genType>(args...)); }
+		template<typename genType, typename...Args, class = typename std::enable_if_t<(sizeof...(Args) > 1)>> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType max(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return max<genType>(arg, max<genType>(args...)); }
+		template<typename genType, typename...Args, class = typename std::enable_if_t<(sizeof...(Args) > 1)>> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType sum(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return sum<genType>(arg, sum<genType>(args...)); }
+		template<typename genType, typename...Args> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType average(genType arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return sum(arg, args...) / (sizeof...(args) + 1); }
 
 
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType sign(genType x) CRAFT_ENGINE_NOEXCEPT 
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType sign(genType x) CRAFT_ENGINE_NOEXCEPT 
 		{ return x > 0 ? static_cast<genType>(1) : x < 0 ? static_cast<genType>(-1) : static_cast<genType>(0); }
 
 
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType tan(genType x) CRAFT_ENGINE_NOEXCEPT { return std::tan(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType cos(genType x) CRAFT_ENGINE_NOEXCEPT { return std::cos(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType sin(genType x) CRAFT_ENGINE_NOEXCEPT { return std::sin(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType atan(genType x) CRAFT_ENGINE_NOEXCEPT { return std::atan(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType acos(genType x) CRAFT_ENGINE_NOEXCEPT { return std::acos(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType asin(genType x) CRAFT_ENGINE_NOEXCEPT { return std::asin(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType exp(genType x) CRAFT_ENGINE_NOEXCEPT { return std::exp(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType log(genType x) CRAFT_ENGINE_NOEXCEPT { return std::log(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType log2(genType x) CRAFT_ENGINE_NOEXCEPT { return std::log2(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType pow(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return std::pow(x, y); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType atan2(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return std::atan2(x, y); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType tan(genType x) CRAFT_ENGINE_NOEXCEPT { return std::tan(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType cos(genType x) CRAFT_ENGINE_NOEXCEPT { return std::cos(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType sin(genType x) CRAFT_ENGINE_NOEXCEPT { return std::sin(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType atan(genType x) CRAFT_ENGINE_NOEXCEPT { return std::atan(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType acos(genType x) CRAFT_ENGINE_NOEXCEPT { return std::acos(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType asin(genType x) CRAFT_ENGINE_NOEXCEPT { return std::asin(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType exp(genType x) CRAFT_ENGINE_NOEXCEPT { return std::exp(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType log(genType x) CRAFT_ENGINE_NOEXCEPT { return std::log(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType log2(genType x) CRAFT_ENGINE_NOEXCEPT { return std::log2(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType pow(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return std::pow(x, y); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType atan2(genType x, genType y) CRAFT_ENGINE_NOEXCEPT { return std::atan2(x, y); }
 
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType sqrt(genType x) CRAFT_ENGINE_NOEXCEPT { return std::sqrt(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType clamp(genType x, genType minVal, genType maxVal) CRAFT_ENGINE_NOEXCEPT { return min(max(x, minVal), maxVal); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType floor(genType x) CRAFT_ENGINE_NOEXCEPT { return std::floor(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType trunc(genType x) CRAFT_ENGINE_NOEXCEPT { return std::trunc(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType ceil(genType x) CRAFT_ENGINE_NOEXCEPT { return std::ceil(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType fract(genType x) CRAFT_ENGINE_NOEXCEPT { return x - math::trunc(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType round(genType x) CRAFT_ENGINE_NOEXCEPT { return std::round(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType mod(genType a, genType b) CRAFT_ENGINE_NOEXCEPT { return a - b * math::floor(a / b); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType abs(genType x) CRAFT_ENGINE_NOEXCEPT { return std::abs(x); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType inverse(genType x) CRAFT_ENGINE_NOEXCEPT { /*assert(x != static_cast<genType>(0));*/ return static_cast<genType>(1) / x; }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType radians(genType degree) CRAFT_ENGINE_NOEXCEPT { return degree * (math::pi() / static_cast<genType>(180)); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType degrees(genType radian) CRAFT_ENGINE_NOEXCEPT { return radian * (static_cast<genType>(180) / math::pi()); }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType lerp(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT { return x * (static_cast<genType>(1) - t) + y * t; }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType slerp(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT { auto tt = 3 * t * t - 2 * t * t * t; return x * (static_cast<genType>(1) - tt) + y * tt; }
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType mix(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT { return x * (static_cast<genType>(1) - t) + y * t; }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType sqrt(genType x) CRAFT_ENGINE_NOEXCEPT { return std::sqrt(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType clamp(genType x, genType minVal, genType maxVal) CRAFT_ENGINE_NOEXCEPT { return min(max(x, minVal), maxVal); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType floor(genType x) CRAFT_ENGINE_NOEXCEPT { return std::floor(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType trunc(genType x) CRAFT_ENGINE_NOEXCEPT { return std::trunc(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType ceil(genType x) CRAFT_ENGINE_NOEXCEPT { return std::ceil(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType fract(genType x) CRAFT_ENGINE_NOEXCEPT { return x - math::trunc(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType round(genType x) CRAFT_ENGINE_NOEXCEPT { return std::round(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType mod(genType a, genType b) CRAFT_ENGINE_NOEXCEPT { return a - b * math::floor(a / b); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType abs(genType x) CRAFT_ENGINE_NOEXCEPT { return std::abs(x); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType inverse(genType x) CRAFT_ENGINE_NOEXCEPT { /*assert(x != static_cast<genType>(0));*/ return static_cast<genType>(1) / x; }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType radians(genType degree) CRAFT_ENGINE_NOEXCEPT { return degree * (math::pi() / static_cast<genType>(180)); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType degrees(genType radian) CRAFT_ENGINE_NOEXCEPT { return radian * (static_cast<genType>(180) / math::pi()); }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType lerp(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT { return x * (static_cast<genType>(1) - t) + y * t; }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType slerp(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT { auto tt = 3 * t * t - 2 * t * t * t; return x * (static_cast<genType>(1) - tt) + y * tt; }
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType mix(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT { return x * (static_cast<genType>(1) - t) + y * t; }
 
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType step(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType step(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT
 		{ 
 			if (t < x) return static_cast<genType>(0);
 			else if (t > y)return static_cast<genType>(1);
@@ -134,7 +135,7 @@ namespace CraftEngine
 				return clamp(f, genType(0), genType(1));
 			}
 		}
-		template<typename genType> CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR  genType smoothstep(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT
+		template<typename genType> CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR  genType smoothstep(genType x, genType y, genType t) CRAFT_ENGINE_NOEXCEPT
 		{ 
 			if (t < x) return static_cast<genType>(0);
 			else if (t > y)return static_cast<genType>(1);
@@ -155,19 +156,19 @@ namespace CraftEngine
 			struct functor1 {};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor1<Vector, 2, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> static call(Type(*f)(Type), Vector<2, Type> const& v) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> static call(Type(*f)(Type), Vector<2, Type> const& v) {
 					return Vector<2, Type>(f(v[0]), f(v[1]));
 				}
 			};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor1<Vector, 3, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> static call(Type(*f)(Type), Vector<3, Type> const& v) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> static call(Type(*f)(Type), Vector<3, Type> const& v) {
 					return Vector<3, Type>(f(v[0]), f(v[1]), f(v[2]));
 				}
 			};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor1<Vector, 4, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<4, Type> static call(Type(*f)(Type), Vector<4, Type> const& v) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<4, Type> static call(Type(*f)(Type), Vector<4, Type> const& v) {
 					return Vector<4, Type>(f(v[0]), f(v[1]), f(v[2]), f(v[3]));
 				}
 			};
@@ -175,19 +176,19 @@ namespace CraftEngine
 			struct functor2 {};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor2<Vector, 2, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR static Vector<2, Type> call(Type(*f)(Type, Type), Vector<2, Type> const& a, Vector<2, Type> const& b) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR static Vector<2, Type> call(Type(*f)(Type, Type), Vector<2, Type> const& a, Vector<2, Type> const& b) {
 					return Vector<2, Type>(f(a[0], b[0]), f(a[1], b[1]));
 				}
 			};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor2<Vector, 3, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR static Vector<3, Type> call(Type(*f)(Type, Type), Vector<3, Type> const& a, Vector<3, Type> const& b) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR static Vector<3, Type> call(Type(*f)(Type, Type), Vector<3, Type> const& a, Vector<3, Type> const& b) {
 					return Vector<3, Type>(f(a[0], b[0]), f(a[1], b[1]), f(a[2], b[2]));
 				}
 			};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor2<Vector, 4, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR static Vector<4, Type> call(Type(*f)(Type, Type), Vector<4, Type> const& a, Vector<4, Type> const& b) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR static Vector<4, Type> call(Type(*f)(Type, Type), Vector<4, Type> const& a, Vector<4, Type> const& b) {
 					return Vector<4, Type>(f(a[0], b[0]), f(a[1], b[1]), f(a[2], b[2]), f(a[3], b[3]));
 				}
 			};
@@ -195,19 +196,19 @@ namespace CraftEngine
 			struct functor3 {};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor3<Vector, 2, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR static Vector<2, Type> call(Type(*f)(Type, Type, Type), Vector<2, Type> const& a, Vector<2, Type> const& b, Vector<2, Type> const& c) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR static Vector<2, Type> call(Type(*f)(Type, Type, Type), Vector<2, Type> const& a, Vector<2, Type> const& b, Vector<2, Type> const& c) {
 					return Vector<2, Type>(f(a[0], b[0], c[0]), f(a[1], b[1], c[1]));
 				}
 			};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor3<Vector, 3, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR static Vector<3, Type> call(Type(*f)(Type, Type, Type), Vector<3, Type> const& a, Vector<3, Type> const& b, Vector<3, Type> const& c) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR static Vector<3, Type> call(Type(*f)(Type, Type, Type), Vector<3, Type> const& a, Vector<3, Type> const& b, Vector<3, Type> const& c) {
 					return Vector<3, Type>(f(a[0], b[0], c[0]), f(a[1], b[1], c[1]), f(a[2], b[2], c[2]));
 				}
 			};
 			template<template<length_t Len, typename Type> class Vector, typename Type>
 			struct functor3<Vector, 4, Type> {
-				CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR static Vector<4, Type> call(Type(*f)(Type, Type, Type), Vector<4, Type> const& a, Vector<4, Type> const& b, Vector<4, Type> const& c) {
+				CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR static Vector<4, Type> call(Type(*f)(Type, Type, Type), Vector<4, Type> const& a, Vector<4, Type> const& b, Vector<4, Type> const& c) {
 					return Vector<4, Type>(f(a[0], b[0], c[0]), f(a[1], b[1], c[1]), f(a[2], b[2], c[2]), f(a[3], b[3], c[3]));
 				}
 			};
@@ -215,61 +216,61 @@ namespace CraftEngine
 
 
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> min(const Vector<Len, Type>& a, const Vector<Len, Type>& b) CRAFT_ENGINE_NOEXCEPT { return _Math_Detail::functor2<Vector, Len, Type>::call(math::min, a, b); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> min(const Vector<Len, Type>& a, const Vector<Len, Type>& b) CRAFT_ENGINE_NOEXCEPT { return _Math_Detail::functor2<Vector, Len, Type>::call(math::min, a, b); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> max(const Vector<Len, Type>& a, const Vector<Len, Type>& b) CRAFT_ENGINE_NOEXCEPT { return _Math_Detail::functor2<Vector, Len, Type>::call(math::max, a, b); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> max(const Vector<Len, Type>& a, const Vector<Len, Type>& b) CRAFT_ENGINE_NOEXCEPT { return _Math_Detail::functor2<Vector, Len, Type>::call(math::max, a, b); }
 		template<length_t Len, typename Type, typename...Args> 
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> min(const Vector<Len, Type>& arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return min<Len, Type>(arg, min<Len, Type>(args...)); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> min(const Vector<Len, Type>& arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return min<Len, Type>(arg, min<Len, Type>(args...)); }
 		template<length_t Len, typename Type, typename...Args>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> max(const Vector<Len, Type>& arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return max<Len, Type>(arg, max<Len, Type>(args...)); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> max(const Vector<Len, Type>& arg, Args...args) CRAFT_ENGINE_NOEXCEPT { return max<Len, Type>(arg, max<Len, Type>(args...)); }
 
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> atan(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::atan, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> atan(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::atan, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> asin(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::asin, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> asin(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::asin, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> acos(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::acos, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> acos(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::acos, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> tan(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::tan, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> tan(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::tan, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> sin(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::sin, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> sin(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::sin, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> cos(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::cos, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> cos(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::cos, v); }
 
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> exp(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::exp, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> exp(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::exp, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> log(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::log, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> log(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::log, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> log2(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::log2, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> log2(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::log2, v); }
 
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> pow(const Vector<Len, Type>& a, const Vector<Len, Type>& b) { return _Math_Detail::functor2<Vector, Len, Type>::call(math::pow, a, b); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> pow(const Vector<Len, Type>& a, const Vector<Len, Type>& b) { return _Math_Detail::functor2<Vector, Len, Type>::call(math::pow, a, b); }
 
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> clamp(const Vector<Len, Type>& x, const Vector<Len, Type>& minVal, const Vector<Len, Type>& maxVal) 
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> clamp(const Vector<Len, Type>& x, const Vector<Len, Type>& minVal, const Vector<Len, Type>& maxVal) 
 		{ return _Math_Detail::functor3<Vector, Len, Type>::call(math::clamp, x, minVal, maxVal); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> floor(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::floor, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> floor(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::floor, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> trunc(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::trunc, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> trunc(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::trunc, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> ceil(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::ceil, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> ceil(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::ceil, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> fract(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::fract, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> fract(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::fract, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> round(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::round, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> round(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::round, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> abs(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::abs, v); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> abs(const Vector<Len, Type>& v) { return _Math_Detail::functor1<Vector, Len, Type>::call(math::abs, v); }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> mod(const Vector<Len, Type>& a, const Vector<Len, Type>& b) { return a - b * math::floor(a / b); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> mod(const Vector<Len, Type>& a, const Vector<Len, Type>& b) { return a - b * math::floor(a / b); }
 
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> lerp(const Vector<Len, Type>& a, const Vector<Len, Type>& b, Type t) { return a * (static_cast<Type>(1) - t) + b * t; }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> lerp(const Vector<Len, Type>& a, const Vector<Len, Type>& b, Type t) { return a * (static_cast<Type>(1) - t) + b * t; }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> slerp(const Vector<Len, Type>& a, const Vector<Len, Type>& b, Type t) { auto tt = 3 * t * t - 2 * t * t * t; return a * (static_cast<Type>(1) - tt) + b * tt; }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> slerp(const Vector<Len, Type>& a, const Vector<Len, Type>& b, Type t) { auto tt = 3 * t * t - 2 * t * t * t; return a * (static_cast<Type>(1) - tt) + b * tt; }
 		template<length_t Len, typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> mix(const Vector<Len, Type>& a, const Vector<Len, Type>& b, Type t) { return a * (static_cast<Type>(1) - t) + b * t; }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<Len, Type> mix(const Vector<Len, Type>& a, const Vector<Len, Type>& b, Type t) { return a * (static_cast<Type>(1) - t) + b * t; }
 
 
 		template<typename Type>
@@ -315,21 +316,21 @@ namespace CraftEngine
 			bool             operator==(const Vector<2, Type>& v)const { return x == v.x && y == v.y; }
 			bool             operator==(Type val)const { return x == val && y == val; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator+(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x + v2.x, v1.y + v2.y); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator-(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x - v2.x, v1.y - v2.y); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator*(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x * v2.x, v1.y * v2.y); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator/(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x / v2.x, v1.y / v2.y); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator%(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x % v2.x, v1.y % v2.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator+(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x + v2.x, v1.y + v2.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator-(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x - v2.x, v1.y - v2.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator*(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x * v2.x, v1.y * v2.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator/(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x / v2.x, v1.y / v2.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator%(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v1.x % v2.x, v1.y % v2.y); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator+(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x + scalar, v.y + scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator-(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(scalar - v.x, scalar - v.y); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator*(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x * scalar, v.y * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator/(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(scalar / v.x, scalar / v.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator+(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x + scalar, v.y + scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator-(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(scalar - v.x, scalar - v.y); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator*(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x * scalar, v.y * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator/(Type scalar, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(scalar / v.x, scalar / v.y); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator+(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x + scalar, v.y + scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator-(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x - scalar, v.y - scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator*(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x * scalar, v.y * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator/(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x / scalar, v.y / scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator+(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x + scalar, v.y + scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator-(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x - scalar, v.y - scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator*(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x * scalar, v.y * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<2, Type> operator/(Vector<2, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(v.x / scalar, v.y / scalar); }
 
 			Type length()const CRAFT_ENGINE_NOEXCEPT { return std::sqrt(length2()); }
 			Type length2()const CRAFT_ENGINE_NOEXCEPT { return x * x + y * y; }
@@ -344,30 +345,30 @@ namespace CraftEngine
 			Vector<2, Type> cos()const CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(std::cos(x), std::cos(y)); }
 			Vector<2, Type> sin()const CRAFT_ENGINE_NOEXCEPT { return Vector<2, Type>(std::sin(x), std::sin(y)); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Vector<2, Type> const& v)const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Vector<2, Type> const& v)const
 			{
 				return x * v.x + y * v.y;
 			}
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type cross(Vector<2, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type cross(Vector<2, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
 			{
 				return x * v.y - y * v.x;
 			}
 		};
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type distance(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return (v1 - v2).length(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type distance(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return (v1 - v2).length(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type length(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type length(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type length2(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length2(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type length2(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length2(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> normalize(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.normalize(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> normalize(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.normalize(); }
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.dot(v2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.dot(v2); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type cross(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.cross(v2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type cross(Vector<2, Type> const& v1, Vector<2, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.cross(v2); }
 
 
 
@@ -417,22 +418,22 @@ namespace CraftEngine
 			bool             operator==(const Vector<3, Type>& v)const { return x == v.x && y == v.y && z == v.z; }
 			bool             operator==(Type val)const { return x == val && y == val && z == val; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator+(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator-(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator*(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator/(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator%(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x % v2.x, v1.y % v2.y, v1.z % v2.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator+(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator-(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator*(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator/(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator%(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v1.x % v2.x, v1.y % v2.y, v1.z % v2.z); }
 
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator+(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x + scalar, v.y + scalar, v.z + scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator-(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(scalar - v.x, scalar - v.y, scalar - v.z); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator*(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x * scalar, v.y * scalar, v.z * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator/(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(scalar / v.x, scalar / v.y, scalar / v.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator+(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x + scalar, v.y + scalar, v.z + scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator-(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(scalar - v.x, scalar - v.y, scalar - v.z); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator*(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x * scalar, v.y * scalar, v.z * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator/(Type scalar, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(scalar / v.x, scalar / v.y, scalar / v.z); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator+(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x + scalar, v.y + scalar, v.z + scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator-(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x - scalar, v.y - scalar, v.z - scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator*(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x * scalar, v.y * scalar, v.z * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator/(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x / scalar, v.y / scalar, v.z / scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator+(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x + scalar, v.y + scalar, v.z + scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator-(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x - scalar, v.y - scalar, v.z - scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator*(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x * scalar, v.y * scalar, v.z * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<3, Type> operator/(Vector<3, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(v.x / scalar, v.y / scalar, v.z / scalar); }
 
 			Type length()const CRAFT_ENGINE_NOEXCEPT { return std::sqrt(length2()); }
 			Type length2()const CRAFT_ENGINE_NOEXCEPT { return x * x + y * y + z * z; }
@@ -448,33 +449,33 @@ namespace CraftEngine
 			Vector<3, Type> sin()const CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(std::sin(x), std::sin(y), std::sin(z)); }
 
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Vector<3, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Vector<3, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
 			{
 				return x * v.x + y * v.y + z * v.z;
 			}
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> cross(Vector<3, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> cross(Vector<3, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
 			{
 				return Vector<3, Type>(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 			}
 		};
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type distance(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return (v1 - v2).length(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type distance(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return (v1 - v2).length(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type length(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type length(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type length2(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length2(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type length2(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length2(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> normalize(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.normalize(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> normalize(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.normalize(); }
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.dot(v2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.dot(v2); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> cross(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.cross(v2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> cross(Vector<3, Type> const& v1, Vector<3, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.cross(v2); }
 		template<typename Type>
 		// dot(cross(v1, v2), v3)
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type triple(Vector<3, Type> const& v1, Vector<3, Type> const& v2, Vector<3, Type> const& v3) CRAFT_ENGINE_NOEXCEPT { return dot(cross(v1, v2), v3); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type triple(Vector<3, Type> const& v1, Vector<3, Type> const& v2, Vector<3, Type> const& v3) CRAFT_ENGINE_NOEXCEPT { return dot(cross(v1, v2), v3); }
 
 
 
@@ -531,21 +532,21 @@ namespace CraftEngine
 			bool             operator==(const Vector<4, Type>& v)const { return x == v.x && y == v.y && z == v.z && w == v.w; }
 			bool             operator==(Type val)const { return x == val && y == val && z == val && w == val; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator+(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator-(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator*(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator/(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator%(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x % v2.x, v1.y % v2.y, v1.z % v2.z, v1.w % v2.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator+(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator-(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator*(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator/(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator%(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v1.x % v2.x, v1.y % v2.y, v1.z % v2.z, v1.w % v2.w); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator+(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x + scalar, v.y + scalar, v.z + scalar, v.w + scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator-(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(scalar - v.x, scalar - v.y, scalar - v.z, scalar - v.w); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator*(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator/(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(scalar / v.x, scalar / v.y, scalar / v.z, scalar / v.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator+(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x + scalar, v.y + scalar, v.z + scalar, v.w + scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator-(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(scalar - v.x, scalar - v.y, scalar - v.z, scalar - v.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator*(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator/(Type scalar, Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(scalar / v.x, scalar / v.y, scalar / v.z, scalar / v.w); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator+(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x + scalar, v.y + scalar, v.z + scalar, v.w + scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator-(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x - scalar, v.y - scalar, v.z - scalar, v.w - scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator*(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator/(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator+(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x + scalar, v.y + scalar, v.z + scalar, v.w + scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator-(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x - scalar, v.y - scalar, v.z - scalar, v.w - scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator*(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Vector<4, Type> operator/(Vector<4, Type> const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar); }
 
 			Type length()const CRAFT_ENGINE_NOEXCEPT { return std::sqrt(length2()); }
 			Type length2()const CRAFT_ENGINE_NOEXCEPT { return x * x + y * y + z * z + w * w; }
@@ -560,7 +561,7 @@ namespace CraftEngine
 			Vector<4, Type> cos()const CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(std::cos(x), std::cos(y), std::cos(z), std::cos(w)); }
 			Vector<4, Type> sin()const CRAFT_ENGINE_NOEXCEPT { return Vector<4, Type>(std::sin(x), std::sin(y), std::sin(z), std::sin(w)); }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Vector<4, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Vector<4, Type> const& v)const CRAFT_ENGINE_NOEXCEPT
 			{
 				return x * v.x + y * v.y + z * v.z + w * v.w;
 			}
@@ -568,16 +569,16 @@ namespace CraftEngine
 		};
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type distance(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return (v1 - v2).length(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type distance(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return (v1 - v2).length(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type length(Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type length(Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type length2(Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length2(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type length2(Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.length2(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<4, Type> normalize(Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.normalize(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<4, Type> normalize(Vector<4, Type> const& v) CRAFT_ENGINE_NOEXCEPT { return v.normalize(); }
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.dot(v2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Vector<4, Type> const& v1, Vector<4, Type> const& v2) CRAFT_ENGINE_NOEXCEPT { return v1.dot(v2); }
 
 
 
@@ -644,10 +645,10 @@ namespace CraftEngine
 				*this = Quaternion(t.x, t.y, t.z, real_part);
 			}
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Quaternion operator*(Type scalar, Quaternion const& v) CRAFT_ENGINE_NOEXCEPT { return Quaternion(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Quaternion operator/(Type scalar, Quaternion const& v) CRAFT_ENGINE_NOEXCEPT { return Quaternion(scalar / v.x, scalar / v.y, scalar / v.z, scalar / v.w); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Quaternion operator*(Quaternion const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Quaternion(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR friend Quaternion operator/(Quaternion const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Quaternion(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Quaternion operator*(Type scalar, Quaternion const& v) CRAFT_ENGINE_NOEXCEPT { return Quaternion(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Quaternion operator/(Type scalar, Quaternion const& v) CRAFT_ENGINE_NOEXCEPT { return Quaternion(scalar / v.x, scalar / v.y, scalar / v.z, scalar / v.w); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Quaternion operator*(Quaternion const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Quaternion(v.x * scalar, v.y * scalar, v.z * scalar, v.w * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR friend Quaternion operator/(Quaternion const& v, Type scalar) CRAFT_ENGINE_NOEXCEPT { return Quaternion(v.x / scalar, v.y / scalar, v.z / scalar, v.w / scalar); }
 			Quaternion& operator*=(Type const& scalar) CRAFT_ENGINE_NOEXCEPT { x *= scalar; y *= scalar; z *= scalar; w *= scalar; return *this; }
 			Quaternion& operator/=(Type const& scalar) CRAFT_ENGINE_NOEXCEPT { auto it = inverse(scalar);  return (*this) *= it; }
 			Quaternion  operator-()const { return Quaternion(-x, -y, -z, -w); }
@@ -656,9 +657,9 @@ namespace CraftEngine
 			CRAFT_ENGINE_CONSTEXPR Quaternion& operator =(Quaternion const& q) CRAFT_ENGINE_NOEXCEPT { i = q.i; j = q.j; k = q.k, r = q.r; return *this; }
 			CRAFT_ENGINE_CONSTEXPR Quaternion& operator*=(Quaternion const& q) CRAFT_ENGINE_NOEXCEPT { (*this) = ((*this) * q); return *this; }
 
-			CRAFT_ENGINE_INLINE friend Quaternion operator+(Quaternion const& q1, Quaternion const& q2) CRAFT_ENGINE_NOEXCEPT { return Quaternion(q1.i + q2.i, q1.j + q2.j, q1.k + q2.k, q1.r + q2.r); }
-			CRAFT_ENGINE_INLINE friend Quaternion operator-(Quaternion const& q1, Quaternion const& q2) CRAFT_ENGINE_NOEXCEPT { return Quaternion(q1.i - q2.i, q1.j - q2.j, q1.k - q2.k, q1.r - q2.r); }
-			CRAFT_ENGINE_INLINE friend Quaternion operator*(Quaternion const& p, Quaternion const& q)CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Quaternion operator+(Quaternion const& q1, Quaternion const& q2) CRAFT_ENGINE_NOEXCEPT { return Quaternion(q1.i + q2.i, q1.j + q2.j, q1.k + q2.k, q1.r + q2.r); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Quaternion operator-(Quaternion const& q1, Quaternion const& q2) CRAFT_ENGINE_NOEXCEPT { return Quaternion(q1.i - q2.i, q1.j - q2.j, q1.k - q2.k, q1.r - q2.r); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Quaternion operator*(Quaternion const& p, Quaternion const& q)CRAFT_ENGINE_NOEXCEPT
 			{
 				return Quaternion(
 					p.r * q.i + p.i * q.r + p.j * q.k - p.k * q.j,
@@ -668,7 +669,7 @@ namespace CraftEngine
 				);
 			}
 
-			CRAFT_ENGINE_INLINE friend Vector<3, Type> operator*(Vector<3, Type> const& v, Quaternion const& q) CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Vector<3, Type> operator*(Vector<3, Type> const& v, Quaternion const& q) CRAFT_ENGINE_NOEXCEPT
 			{
 				Vector<3, Type> QuatVector(q.i, q.j, q.k);
 				Vector<3, Type> uv(cross(QuatVector, v));
@@ -676,7 +677,7 @@ namespace CraftEngine
 				return v + ((uv * q.r) + uuv) * static_cast<Type>(2);
 			}
 
-			CRAFT_ENGINE_INLINE friend Vector<4, Type> operator*(Vector<4, Type> const& v, Quaternion const& q) CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Vector<4, Type> operator*(Vector<4, Type> const& v, Quaternion const& q) CRAFT_ENGINE_NOEXCEPT
 			{
 				Vector<3, Type> tec = Vector<3, Type>(v.x, v.y, v.z);
 				Vector<3, Type> QuatVector(q.i, q.j, q.k);
@@ -687,14 +688,14 @@ namespace CraftEngine
 
 			Type length()const CRAFT_ENGINE_NOEXCEPT { return std::sqrt(length2()); }
 			Type length2()const CRAFT_ENGINE_NOEXCEPT { return i * i + j * j + k * k + r * r; }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Quaternion conjugate()const CRAFT_ENGINE_NOEXCEPT { return Quaternion(-i, -j, -k, r); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Quaternion normalize()const CRAFT_ENGINE_NOEXCEPT { Type inv = static_cast<Type>(1) / length(); return *this * inv; }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Quaternion inverse()  const CRAFT_ENGINE_NOEXCEPT { return (static_cast<Type>(1) / length()) * conjugate(); } // ?
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Quaternion conjugate()const CRAFT_ENGINE_NOEXCEPT { return Quaternion(-i, -j, -k, r); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Quaternion normalize()const CRAFT_ENGINE_NOEXCEPT { Type inv = static_cast<Type>(1) / length(); return *this * inv; }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Quaternion inverse()  const CRAFT_ENGINE_NOEXCEPT { return (static_cast<Type>(1) / length()) * conjugate(); } // ?
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type dot(Quaternion const& q)const CRAFT_ENGINE_NOEXCEPT { return i * q.i + j * q.j + k * q.k + r * q.r; }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type dot(Quaternion const& q)const CRAFT_ENGINE_NOEXCEPT { return i * q.i + j * q.j + k * q.k + r * q.r; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type angle()const CRAFT_ENGINE_NOEXCEPT { return Type(2) * std::acos(r); }
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> axis()const CRAFT_ENGINE_NOEXCEPT {
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type angle()const CRAFT_ENGINE_NOEXCEPT { return Type(2) * std::acos(r); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> axis()const CRAFT_ENGINE_NOEXCEPT {
 				Type s2 = static_cast<Type>(1) - r * r;
 				if (s2 < math::epsilon<Type>())
 					return Vector<3, Type>(1.0, 0.0, 0.0);
@@ -702,7 +703,7 @@ namespace CraftEngine
 				return Vector<3, Type>(i * s, j * s, k * s);
 			}
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type pitch() const CRAFT_ENGINE_NOEXCEPT { 
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type pitch() const CRAFT_ENGINE_NOEXCEPT { 
 
 				Type const y = static_cast<Type>(2) * (j * k + r * i);
 				Type const x = r * r - i * i - j * j + k * k;
@@ -710,45 +711,45 @@ namespace CraftEngine
 					return static_cast<Type>(static_cast<Type>(2) * atan2(i, r));//avoid atan2(0,0) - handle singularity - Matiis
 				return static_cast<Type>(atan2(y, x));
 			}
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type roll() const CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type roll() const CRAFT_ENGINE_NOEXCEPT
 			{ 
 				return static_cast<Type>(atan2(static_cast<Type>(2) * (i * j + r * k), r * r + i * i - j * j - k * k));
 			}
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type yaw() const CRAFT_ENGINE_NOEXCEPT
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type yaw() const CRAFT_ENGINE_NOEXCEPT
 			{ 
 				return asin(clamp(static_cast<Type>(-2) * (i * k - r * j), static_cast<Type>(-1), static_cast<Type>(1)));
 			}
 
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> eulerAngles() const CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(pitch(), yaw(), roll()); }
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> eulerAngles() const CRAFT_ENGINE_NOEXCEPT { return Vector<3, Type>(pitch(), yaw(), roll()); }
 
-			CRAFT_ENGINE_INLINE Quaternion addEuler(Vector<3, Type> const& eularAngle)const CRAFT_ENGINE_NOEXCEPT { Quaternion q(eularAngle); return (*this) * q; }
-			CRAFT_ENGINE_INLINE Quaternion addAngleAxis(Vector<3, Type> const& axis, Type const& angle)const CRAFT_ENGINE_NOEXCEPT { Quaternion q(angle, axis); return (*this) * q; }
-			CRAFT_ENGINE_INLINE Quaternion addScaledVector(Vector<3, Type> const& sv)const CRAFT_ENGINE_NOEXCEPT { Type l = sv.length(); Quaternion q(l, (static_cast<Type>(1) / l) * sv);  return (*this) * q; }
+			CRAFT_ENGINE_MATH_FUNC_DECL Quaternion addEuler(Vector<3, Type> const& eularAngle)const CRAFT_ENGINE_NOEXCEPT { Quaternion q(eularAngle); return (*this) * q; }
+			CRAFT_ENGINE_MATH_FUNC_DECL Quaternion addAngleAxis(Vector<3, Type> const& axis, Type const& angle)const CRAFT_ENGINE_NOEXCEPT { Quaternion q(angle, axis); return (*this) * q; }
+			CRAFT_ENGINE_MATH_FUNC_DECL Quaternion addScaledVector(Vector<3, Type> const& sv)const CRAFT_ENGINE_NOEXCEPT { Type l = sv.length(); Quaternion q(l, (static_cast<Type>(1) / l) * sv);  return (*this) * q; }
 
 		};
 
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE Type dot(Quaternion<Type> const& x, Quaternion<Type> const& y) CRAFT_ENGINE_NOEXCEPT {
+		CRAFT_ENGINE_MATH_FUNC_DECL Type dot(Quaternion<Type> const& x, Quaternion<Type> const& y) CRAFT_ENGINE_NOEXCEPT {
 			return x.dot(y);
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE Quaternion<Type> mix(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
+		CRAFT_ENGINE_MATH_FUNC_DECL Quaternion<Type> mix(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
 			return (static_cast<Type>(1) - t) * from + t * to;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE Quaternion<Type> lerp(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
+		CRAFT_ENGINE_MATH_FUNC_DECL Quaternion<Type> lerp(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
 			return (static_cast<Type>(1) - t) * from + t * to;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE Quaternion<Type> slerp(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
+		CRAFT_ENGINE_MATH_FUNC_DECL Quaternion<Type> slerp(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
 			Type b = std::sin(t * math::pi<Type>());
 			return (static_cast<Type>(1) - b) * from + b * to;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE Quaternion<Type> splerp(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
+		CRAFT_ENGINE_MATH_FUNC_DECL Quaternion<Type> splerp(Quaternion<Type> const& from, Quaternion<Type> const& to, Type t) CRAFT_ENGINE_NOEXCEPT {
 			auto z = to;
 			Type cosTheta = dot(from, to);
 			// If cosTheta < 0, the interpolation will take the long way around the sphere.
@@ -817,7 +818,7 @@ namespace CraftEngine
 			col_vector& operator[](uint32_t index) { return value[index]; }
 			col_vector const& operator[](uint32_t index)const { return value[index]; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> transpose()const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> transpose()const
 			{
 				return Matrix<2, 2, Type>(
 					{ c0.x,c1.x },
@@ -825,7 +826,7 @@ namespace CraftEngine
 				);
 			}
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type determinant()const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type determinant()const
 			{
 				return c0[0] * c1[1] - c1[0] * c1[0];
 			}
@@ -840,10 +841,10 @@ namespace CraftEngine
 			CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type>& operator*=(Type scalar) { c0 *= scalar; c1 *= scalar; return *this; }
 
 			// scalar operator
-			CRAFT_ENGINE_INLINE friend Matrix<2, 2, Type> operator*(Matrix<2, 2, Type> const& m, Type scalar) { return Matrix<2, 2, Type>(m.c0 * scalar, m.c1 * scalar); }
-			CRAFT_ENGINE_INLINE friend Matrix<2, 2, Type> operator*(Type scalar, Matrix<2, 2, Type> const& m) { return Matrix<2, 2, Type>(m.c0 * scalar, m.c1 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<2, 2, Type> operator*(Matrix<2, 2, Type> const& m, Type scalar) { return Matrix<2, 2, Type>(m.c0 * scalar, m.c1 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<2, 2, Type> operator*(Type scalar, Matrix<2, 2, Type> const& m) { return Matrix<2, 2, Type>(m.c0 * scalar, m.c1 * scalar); }
 			// matrix operator
-			CRAFT_ENGINE_INLINE friend Matrix<2, 2, Type> operator*(Matrix<2, 2, Type> const& m1, Matrix<2, 2, Type> const& m2)
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<2, 2, Type> operator*(Matrix<2, 2, Type> const& m1, Matrix<2, 2, Type> const& m2)
 			{
 				auto const& SrcA0 = m1[0];
 				auto const& SrcA1 = m1[1];
@@ -855,10 +856,10 @@ namespace CraftEngine
 				return Result;
 			}
 			// vector operator
-			CRAFT_ENGINE_INLINE friend row_vector operator*(Matrix<2, 2, Type> const& m, col_vector const& col_vec) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend row_vector operator*(Matrix<2, 2, Type> const& m, col_vector const& col_vec) {
 				return (col_vec[0] * m[0] + col_vec[1] * m[1]);
 			}
-			CRAFT_ENGINE_INLINE friend col_vector operator*(row_vector const& v, Matrix<2, 2, Type> const& m) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend col_vector operator*(row_vector const& v, Matrix<2, 2, Type> const& m) {
 				return Vector<2, Type>(dot(m[0], v), dot(m[1], v));
 			}
 
@@ -906,7 +907,7 @@ namespace CraftEngine
 			col_vector& operator[](uint32_t index) { return value[index]; }
 			col_vector const& operator[](uint32_t index)const { return value[index]; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> transpose()const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> transpose()const
 			{
 				return Matrix<3, 3, Type>(
 					{ c0.x,c1.x,c2.x },
@@ -915,7 +916,7 @@ namespace CraftEngine
 				);
 			}
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type determinant()const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type determinant()const
 			{
 				return triple(c0, c1, c2);
 			}
@@ -936,10 +937,10 @@ namespace CraftEngine
 			CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type>& operator*=(Matrix<3, 3, Type> const& m) { return *this = *this * m; }
 			CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type>& operator*=(Type scalar) { c0 *= scalar; c1 *= scalar; c2 *= scalar; return *this; }
 
-			CRAFT_ENGINE_INLINE friend Matrix<3, 3, Type> operator*(Matrix<3, 3, Type> const& m, Type scalar) { return Matrix<3, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
-			CRAFT_ENGINE_INLINE friend Matrix<3, 3, Type> operator*(Type scalar, Matrix<3, 3, Type> const& m) { return Matrix<3, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<3, 3, Type> operator*(Matrix<3, 3, Type> const& m, Type scalar) { return Matrix<3, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<3, 3, Type> operator*(Type scalar, Matrix<3, 3, Type> const& m) { return Matrix<3, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
 
-			CRAFT_ENGINE_INLINE friend Matrix<3, 3, Type> operator*(Matrix<3, 3, Type> const& m1, Matrix<3, 3, Type> const& m2)
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<3, 3, Type> operator*(Matrix<3, 3, Type> const& m1, Matrix<3, 3, Type> const& m2)
 			{
 				auto const& SrcA0 = m1[0];
 				auto const& SrcA1 = m1[1];
@@ -954,10 +955,10 @@ namespace CraftEngine
 				return Result;
 			}
 
-			CRAFT_ENGINE_INLINE friend row_vector operator*(Matrix<3, 3, Type> const& m, col_vector const& col_vec) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend row_vector operator*(Matrix<3, 3, Type> const& m, col_vector const& col_vec) {
 				return (col_vec[0] * m[0] + col_vec[1] * m[1] + col_vec[2] * m[2]);
 			}
-			CRAFT_ENGINE_INLINE friend col_vector operator*(row_vector const& row_vec, Matrix<3, 3, Type> const& m) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend col_vector operator*(row_vector const& row_vec, Matrix<3, 3, Type> const& m) {
 				return Vector<3, Type>(dot(m[0], row_vec), dot(m[1], row_vec), dot(m[2], row_vec));
 			}
 
@@ -1077,10 +1078,10 @@ namespace CraftEngine
 			CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type>& operator*=(Matrix<4, 4, Type> const& m) { return *this = *this * m; }
 			CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type>& operator*=(Type scalar) { c0 *= scalar; c1 *= scalar; c2 *= scalar, c3 *= scalar; return *this; }
 
-			CRAFT_ENGINE_INLINE friend Matrix<4, 4, Type> operator*(Matrix<4, 4, Type> const& m, Type scalar) { return Matrix<4, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
-			CRAFT_ENGINE_INLINE friend Matrix<4, 4, Type> operator*(Type scalar, Matrix<4, 4, Type> const& m) { return Matrix<4, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<4, 4, Type> operator*(Matrix<4, 4, Type> const& m, Type scalar) { return Matrix<4, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<4, 4, Type> operator*(Type scalar, Matrix<4, 4, Type> const& m) { return Matrix<4, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
 
-			CRAFT_ENGINE_INLINE friend Matrix<4, 4, Type> operator*(Matrix<4, 4, Type> const& m1, Matrix<4, 4, Type> const& m2)
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<4, 4, Type> operator*(Matrix<4, 4, Type> const& m1, Matrix<4, 4, Type> const& m2)
 			{
 				auto const& SrcA0 = m1[0];
 				auto const& SrcA1 = m1[1];
@@ -1100,10 +1101,10 @@ namespace CraftEngine
 				return Result;
 			}
 
-			CRAFT_ENGINE_INLINE friend row_vector operator*(Matrix<4, 4, Type> const& m, col_vector const& col_vec) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend row_vector operator*(Matrix<4, 4, Type> const& m, col_vector const& col_vec) {
 				return (col_vec[0] * m[0] + col_vec[1] * m[1] + col_vec[2] * m[2] + col_vec[3] * m[3]);
 			}
-			CRAFT_ENGINE_INLINE friend col_vector operator*(row_vector const& row_vec, Matrix<4, 4, Type> const& m) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend col_vector operator*(row_vector const& row_vec, Matrix<4, 4, Type> const& m) {
 				return Vector<4, Type>(dot(m[0], row_vec), dot(m[1], row_vec), dot(m[2], row_vec), dot(m[3], row_vec));
 			}
 
@@ -1152,7 +1153,7 @@ namespace CraftEngine
 			col_vector& operator[](uint32_t index) { return value[index]; }
 			col_vector const& operator[](uint32_t index)const { return value[index]; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 3, Type> transpose()const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 3, Type> transpose()const
 			{
 				return Matrix<4, 3, Type>(
 					{ c0.x,c1.x,c2.x },
@@ -1164,13 +1165,13 @@ namespace CraftEngine
 
 			CRAFT_ENGINE_CONSTEXPR Matrix<3, 4, Type>& operator*=(Type scalar) { c0 *= scalar; c1 *= scalar; c2 *= scalar; return *this; }
 			
-			CRAFT_ENGINE_INLINE friend Matrix<3, 4, Type> operator*(Matrix<3, 4, Type> const& m, Type scalar) { return Matrix<3, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
-			CRAFT_ENGINE_INLINE friend Matrix<3, 4, Type> operator*(Type scalar, Matrix<3, 4, Type> const& m) { return Matrix<3, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<3, 4, Type> operator*(Matrix<3, 4, Type> const& m, Type scalar) { return Matrix<3, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<3, 4, Type> operator*(Type scalar, Matrix<3, 4, Type> const& m) { return Matrix<3, 4, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar); }
 
-			CRAFT_ENGINE_INLINE friend col_vector operator*(Matrix<3, 4, Type> const& m, row_vector const& col_vec) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend col_vector operator*(Matrix<3, 4, Type> const& m, row_vector const& col_vec) {
 				return col_vector(m[0] * col_vec[0] + m[1] * col_vec[1] + m[2] * col_vec[2] + m[3] * col_vec[3]);
 			}
-			CRAFT_ENGINE_INLINE friend row_vector operator*(col_vector const& row_vec, Matrix<3, 4, Type> const& m) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend row_vector operator*(col_vector const& row_vec, Matrix<3, 4, Type> const& m) {
 				return row_vector(dot(m[0], row_vec), dot(m[1], row_vec), dot(m[2], row_vec));
 			}
 
@@ -1213,7 +1214,7 @@ namespace CraftEngine
 			col_vector& operator[](uint32_t index) { return value[index]; }
 			col_vector const& operator[](uint32_t index)const { return value[index]; }
 
-			CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 4, Type> transpose()const
+			CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 4, Type> transpose()const
 			{
 				return Matrix<3, 4, Type>(
 					{ c0.x,c1.x,c2.x,c3.x },
@@ -1224,13 +1225,13 @@ namespace CraftEngine
 
 			CRAFT_ENGINE_CONSTEXPR Matrix<4, 3, Type>& operator*=(Type scalar) { c0 *= scalar; c1 *= scalar; c2 *= scalar; c3 *= scalar; return *this; }
 
-			CRAFT_ENGINE_INLINE friend Matrix<4, 3, Type> operator*(Matrix<4, 3, Type> const& m, Type scalar) { return Matrix<4, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
-			CRAFT_ENGINE_INLINE friend Matrix<4, 3, Type> operator*(Type scalar, Matrix<4, 3, Type> const& m) { return Matrix<4, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<4, 3, Type> operator*(Matrix<4, 3, Type> const& m, Type scalar) { return Matrix<4, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
+			CRAFT_ENGINE_MATH_FUNC_DECL friend Matrix<4, 3, Type> operator*(Type scalar, Matrix<4, 3, Type> const& m) { return Matrix<4, 3, Type>(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar, m.c3 * scalar); }
 
-			CRAFT_ENGINE_INLINE friend col_vector operator*(Matrix<4, 3, Type> const& m, row_vector const& col_vec) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend col_vector operator*(Matrix<4, 3, Type> const& m, row_vector const& col_vec) {
 				return col_vector(m[0] * col_vec[0] + m[1] * col_vec[1] + m[2] * col_vec[2]);
 			}
-			CRAFT_ENGINE_INLINE friend row_vector operator*(col_vector const& row_vec, Matrix<4, 3, Type> const& m) {
+			CRAFT_ENGINE_MATH_FUNC_DECL friend row_vector operator*(col_vector const& row_vec, Matrix<4, 3, Type> const& m) {
 				return row_vector(dot(m[0], row_vec), dot(m[1], row_vec), dot(m[2], row_vec), dot(m[3], row_vec));
 			}
 
@@ -1239,21 +1240,21 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> inverse(const Matrix<2, 2, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.inverse(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> inverse(const Matrix<2, 2, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.inverse(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> inverse(const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.inverse(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> inverse(const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.inverse(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> inverse(const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.inverse(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> inverse(const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.inverse(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> transpose(const Matrix<2, 2, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> transpose(const Matrix<2, 2, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> transpose(const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> transpose(const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> transpose(const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> transpose(const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 4, Type> transpose(const Matrix<4, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 4, Type> transpose(const Matrix<4, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 3, Type> transpose(const Matrix<3, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 3, Type> transpose(const Matrix<3, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT { return m.transpose(); }
 
 
 		typedef Quaternion<float>   quat;
@@ -1286,7 +1287,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> quatTomat3(Quaternion<Type> const& quat) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> quatTomat3(Quaternion<Type> const& quat) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Rotate(1);
 			Type qxx(quat.i * quat.i);
@@ -1310,12 +1311,12 @@ namespace CraftEngine
 			return Rotate;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> quatTomat4(Quaternion<Type> const& quat) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> quatTomat4(Quaternion<Type> const& quat) CRAFT_ENGINE_NOEXCEPT
 		{
 			return Matrix<4, 4, Type>(quatTomat3(quat));
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Quaternion<Type> mat3ToQuat(Matrix<3, 3, Type> const& m)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Quaternion<Type> mat3ToQuat(Matrix<3, 3, Type> const& m)
 		{
 			Type fourXSquaredMinus1 = m[0][0] - m[1][1] - m[2][2];
 			Type fourYSquaredMinus1 = m[1][1] - m[0][0] - m[2][2];
@@ -1359,12 +1360,12 @@ namespace CraftEngine
 			}
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Quaternion<Type> mat4ToQuat(Matrix<4, 4, Type> const& m)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Quaternion<Type> mat4ToQuat(Matrix<4, 4, Type> const& m)
 		{
 			return mat3ToQuat(Matrix<3, 3, Type>(m));
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> eulerToMat3(Vector<3, Type> const& eularAngle)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> eulerToMat3(Vector<3, Type> const& eularAngle)
 		{
 			auto c = eularAngle.cos();
 			auto s = eularAngle.sin();
@@ -1379,12 +1380,12 @@ namespace CraftEngine
 			return Rotate;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> quatToEuler(Quaternion<Type> const& q)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> quatToEuler(Quaternion<Type> const& q)
 		{
 			return q.eulerAngles();
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Quaternion<Type> eulerToQuat(Vector<3, Type> const& euler)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Quaternion<Type> eulerToQuat(Vector<3, Type> const& euler)
 		{
 			return mat3ToQuat(eulerToMat3(euler));
 		}
@@ -1406,7 +1407,7 @@ namespace CraftEngine
 		*/
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> translate(Vector<3, Type> const& v, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> translate(Vector<3, Type> const& v, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result;
 			Result[0] = m[0] + Vector<4, Type>(v * m[0][3], static_cast<Type>(0));
@@ -1416,14 +1417,14 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> translate(const Matrix<4, 4, Type>& m, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> translate(const Matrix<4, 4, Type>& m, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result = m;
 			Result[3] = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3];
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> translate(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> translate(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result(1);
 			Result[3] = Vector<4, Type>(v, static_cast<Type>(1));
@@ -1432,7 +1433,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> scale(Vector<3, Type> const& v, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> scale(Vector<3, Type> const& v, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result = m;
 			Vector<4, Type> t = Vector<4, Type>(v, static_cast<Type>(1));
@@ -1443,7 +1444,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> scale(const Matrix<4, 4, Type>& m, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> scale(const Matrix<4, 4, Type>& m, Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result;
 			Result[0] = m[0] * v[0];
@@ -1453,7 +1454,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> scale(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> scale(Vector<3, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result(1);
 			Result[0][0] = v[0];
@@ -1468,7 +1469,7 @@ namespace CraftEngine
 		/*
 		 create a 3x3 matrix which can be used to rotate a vector by angle&axis
 		*/
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate(Type angle, Vector<3, Type> const& axis) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate(Type angle, Vector<3, Type> const& axis) CRAFT_ENGINE_NOEXCEPT
 		{
 			Type const a = angle;
 			Type const c = cos(a);
@@ -1492,7 +1493,7 @@ namespace CraftEngine
 		/*
 		 create a 3x3 matrix which can be used to rotate a vector around eular angles order by x->y->z axis
 		*/
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate(Vector<3, Type> const& eularAngle) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate(Vector<3, Type> const& eularAngle) CRAFT_ENGINE_NOEXCEPT
 		{
 			auto c = eularAngle.cos();
 			auto s = eularAngle.sin();
@@ -1509,7 +1510,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotateX(Type angleX) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotateX(Type angleX) CRAFT_ENGINE_NOEXCEPT
 		{
 			auto c = math::cos(angleX);
 			auto s = math::sin(angleX);
@@ -1520,7 +1521,7 @@ namespace CraftEngine
 			return Rotate;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotateY(Type angleY) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotateY(Type angleY) CRAFT_ENGINE_NOEXCEPT
 		{
 			auto c = math::cos(angleY);
 			auto s = math::sin(angleY);
@@ -1531,7 +1532,7 @@ namespace CraftEngine
 			return Rotate;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotateZ(Type angleZ) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotateZ(Type angleZ) CRAFT_ENGINE_NOEXCEPT
 		{
 			auto c = math::cos(angleZ);
 			auto s = math::sin(angleZ);
@@ -1544,7 +1545,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(const Matrix<4, 4, Type>& m, Vector<3, Type> const& eularAngle) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(const Matrix<4, 4, Type>& m, Vector<3, Type> const& eularAngle) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Rotate(rotate(eularAngle));
 			Matrix<4, 4, Type> Result;
@@ -1555,7 +1556,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(const Matrix<4, 4, Type>& m, Quaternion<Type> const& quat) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(const Matrix<4, 4, Type>& m, Quaternion<Type> const& quat) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Rotate(quatTomat3(quat));
 			Matrix<4, 4, Type> Result;
@@ -1566,7 +1567,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(const Matrix<4, 4, Type>& m, Type angle, Vector<3, Type> const& axis) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(const Matrix<4, 4, Type>& m, Type angle, Vector<3, Type> const& axis) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Rotate(rotate(angle, axis));
 			Matrix<4, 4, Type> Result;
@@ -1577,7 +1578,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(Vector<3, Type> const& eularAngle, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(Vector<3, Type> const& eularAngle, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Rotate(rotate(eularAngle));
 			Matrix<4, 4, Type> Result;
@@ -1595,7 +1596,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(Quaternion<Type> const& quat, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(Quaternion<Type> const& quat, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Rotate(quatTomat3(quat));
 			Matrix<4, 4, Type> Result;
@@ -1613,7 +1614,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(Type angle, Vector<3, Type> const& axis, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> rotate(Type angle, Vector<3, Type> const& axis, const Matrix<4, 4, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Rotate(rotate(angle, axis));
 			Matrix<4, 4, Type> Result;
@@ -1636,7 +1637,7 @@ namespace CraftEngine
 
 		// Combine rotation and position to one matrix
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> model(Quaternion<Type> const& rotation, Vector<3, Type> const& position) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> model(Quaternion<Type> const& rotation, Vector<3, Type> const& position) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result(rotate(rotation));
 			Result[3] = Vector<4, Type>(position, static_cast<Type>(1));
@@ -1656,7 +1657,7 @@ namespace CraftEngine
 		*/
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> lookAtRH(Vector<3, Type> const& eye, Vector<3, Type> const& center, Vector<3, Type> const& up) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> lookAtRH(Vector<3, Type> const& eye, Vector<3, Type> const& center, Vector<3, Type> const& up) CRAFT_ENGINE_NOEXCEPT
 		{
 			Vector<3, Type> const f(normalize(eye - center));
 			Vector<3, Type> const s(normalize(cross(up, f)));// right dir
@@ -1677,7 +1678,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> lookAtLH(Vector<3, Type> const& eye, Vector<3, Type> const& center, Vector<3, Type> const& up) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> lookAtLH(Vector<3, Type> const& eye, Vector<3, Type> const& center, Vector<3, Type> const& up) CRAFT_ENGINE_NOEXCEPT
 		{
 			Vector<3, Type> const f(normalize(center - eye));// center - eye
 			Vector<3, Type> const s(normalize(cross(up, f)));// right dir
@@ -1702,7 +1703,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> lookAt(Vector<3, Type> const& eye, Vector<3, Type> const& center, Vector<3, Type> const& up) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> lookAt(Vector<3, Type> const& eye, Vector<3, Type> const& center, Vector<3, Type> const& up) CRAFT_ENGINE_NOEXCEPT
 		{
 			if (CRAFT_ENGINE_MATH_CLIP_CONTROL & CRAFT_ENGINE_MATH_CLIP_WORLD_SPACE_LH)
 				return lookAtLH(eye, center, up);
@@ -1712,7 +1713,7 @@ namespace CraftEngine
 
 
 		template<typename Type> // 
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldRH_DeviceLH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldRH_DeviceLH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			assert(abs(aspect - std::numeric_limits<Type>::epsilon()) > static_cast<Type>(0));
 			Type const tanHalfFovy = tan(fovy / static_cast<Type>(2));
@@ -1725,7 +1726,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldLH_DeviceLH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldLH_DeviceLH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			assert(abs(aspect - std::numeric_limits<Type>::epsilon()) > static_cast<Type>(0));
 			Type const tanHalfFovy = tan(fovy / static_cast<Type>(2));
@@ -1738,7 +1739,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldRH_DeviceRH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldRH_DeviceRH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			assert(abs(aspect - std::numeric_limits<Type>::epsilon()) > static_cast<Type>(0));
 			Type const tanHalfFovy = tan(fovy / static_cast<Type>(2));
@@ -1751,7 +1752,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldLH_DeviceRH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspectiveWorldLH_DeviceRH(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			assert(abs(aspect - std::numeric_limits<Type>::epsilon()) > static_cast<Type>(0));
 			Type const tanHalfFovy = tan(fovy / static_cast<Type>(2));
@@ -1767,7 +1768,7 @@ namespace CraftEngine
 
 		// * Perspective Projection Matrix, Left-Hand and Zero to One for Vulkan&GLSL Only
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspective(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> perspective(Type fovy, Type aspect, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			if (CRAFT_ENGINE_MATH_CLIP_CONTROL & CRAFT_ENGINE_MATH_CLIP_WORLD_SPACE_LH)
 				if (CRAFT_ENGINE_MATH_CLIP_CONTROL & CRAFT_ENGINE_MATH_CLIP_DEVICE_SPACE_LH)
@@ -1784,7 +1785,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldRH_DeviceLH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldRH_DeviceLH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar)
 		{
 			Matrix<4, 4, Type> Result(1);
 			Result[0][0] = static_cast<Type>(2) / (right - left);
@@ -1797,7 +1798,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldRH_DeviceRH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldRH_DeviceRH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar)
 		{
 			Matrix<4, 4, Type> Result(1);
 			Result[0][0] = static_cast<Type>(2) / (right - left);
@@ -1811,7 +1812,7 @@ namespace CraftEngine
 
 		// * Ortho Projection Matrix, Left-Hand and Zero to One for Vulkan&GLSL Only
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldLH_DeviceRH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldLH_DeviceRH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result(1);
 			Result[0][0] = static_cast<Type>(2) / (right - left);
@@ -1824,7 +1825,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldLH_DeviceLH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> orthoWorldLH_DeviceLH(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<4, 4, Type> Result(1);
 			Result[0][0] = static_cast<Type>(2) / (right - left);
@@ -1837,7 +1838,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> ortho(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<4, 4, Type> ortho(Type left, Type right, Type top, Type bottom, Type zNear, Type zFar)
 		{
 			if (CRAFT_ENGINE_MATH_CLIP_CONTROL & CRAFT_ENGINE_MATH_CLIP_WORLD_SPACE_LH)
 				if (CRAFT_ENGINE_MATH_CLIP_CONTROL & CRAFT_ENGINE_MATH_CLIP_DEVICE_SPACE_LH)
@@ -1863,7 +1864,7 @@ namespace CraftEngine
 	{
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> translate2D(Vector<2, Type> const& v, const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> translate2D(Vector<2, Type> const& v, const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result;
 			Result[0] = m[0] + Vector<3, Type>(v * m[0][2], static_cast<Type>(0));
@@ -1872,14 +1873,14 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> translate2D(const Matrix<3, 3, Type>& m, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> translate2D(const Matrix<3, 3, Type>& m, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result = m;
 			Result[2] = m[0] * v[0] + m[1] * v[1] + m[2];
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> translate2D(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> translate2D(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result(1);
 			Result[2] = Vector<3, Type>(v, static_cast<Type>(1));
@@ -1887,7 +1888,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> scale2D(Vector<2, Type> const& v, const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> scale2D(Vector<2, Type> const& v, const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result = m;
 			Vector<3, Type> t = Vector<3, Type>(v, static_cast<Type>(1));
@@ -1897,7 +1898,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> scale2D(const Matrix<3, 3, Type>& m, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> scale2D(const Matrix<3, 3, Type>& m, Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result(1);
 			Result[0] = m[0] * v[0];
@@ -1906,7 +1907,7 @@ namespace CraftEngine
 			return Result;
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> scale2D(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> scale2D(Vector<2, Type> const& v) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result(1);
 			Result[0][0] = v[0];
@@ -1915,7 +1916,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> rotate2D(Type angle) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<2, 2, Type> rotate2D(Type angle) CRAFT_ENGINE_NOEXCEPT
 		{
 			auto c = math::cos(angle);
 			auto s = math::sin(angle);
@@ -1930,7 +1931,7 @@ namespace CraftEngine
 		* @param angle: angle
 		* @param m:     src matrix
 		*/
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate2D(Type angle, const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate2D(Type angle, const Matrix<3, 3, Type>& m) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<2, 2, Type> Rotate = rotate2D(angle);
 			Matrix<3, 3, Type> Result;
@@ -1951,7 +1952,7 @@ namespace CraftEngine
 		* @param m:     src matrix
 		* @param angle: angle
 		*/
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate2D(const Matrix<3, 3, Type>& m, Type angle) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> rotate2D(const Matrix<3, 3, Type>& m, Type angle) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Rotate(rotate2D(angle));
 			Matrix<3, 3, Type> Result = m;
@@ -1964,7 +1965,7 @@ namespace CraftEngine
 
 		// Combine rotation and position to one matrix
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> model2D(Matrix<2, 2, Type> const& rotation, Vector<2, Type> const& position) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Matrix<3, 3, Type> model2D(Matrix<2, 2, Type> const& rotation, Vector<2, Type> const& position) CRAFT_ENGINE_NOEXCEPT
 		{
 			Matrix<3, 3, Type> Result(
 				Vector<3, Type>(rotation[0], static_cast<Type>(0)),
@@ -1987,7 +1988,7 @@ namespace CraftEngine
 	{
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> hsl2rgb(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> hsl2rgb(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			const Type& h = color[0];
@@ -2009,7 +2010,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> hsv2rgb(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> hsv2rgb(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			const Type& h = color[0];
@@ -2034,7 +2035,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> rgb2hsl(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> rgb2hsl(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			const Type& r = color[0];
@@ -2059,7 +2060,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> rgb2hsv(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> rgb2hsv(const Vector<3, Type>& color) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			const Type& r = color[0];
@@ -2091,7 +2092,7 @@ namespace CraftEngine
 	namespace math
 	{
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> solve2(const Matrix<2, 2, Type>& coefficientMatrix, const Vector<2, Type>& constantVector) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> solve2(const Matrix<2, 2, Type>& coefficientMatrix, const Vector<2, Type>& constantVector) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			auto cm = coefficientMatrix;
@@ -2115,7 +2116,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> solve3(const Matrix<3, 3, Type>& coefficientMatrix, const Vector<3, Type>& constantVector) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> solve3(const Matrix<3, 3, Type>& coefficientMatrix, const Vector<3, Type>& constantVector) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			auto cm = coefficientMatrix;
@@ -2156,7 +2157,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<4, Type> solve4(const Matrix<4, 4, Type>& coefficientMatrix, const Vector<4, Type>& constantVector) CRAFT_ENGINE_NOEXCEPT
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<4, Type> solve4(const Matrix<4, 4, Type>& coefficientMatrix, const Vector<4, Type>& constantVector) CRAFT_ENGINE_NOEXCEPT
 		{
 			static_assert(std::numeric_limits<Type>::is_iec559, "only accept floating-point inputs");
 			auto cm = coefficientMatrix;
@@ -2225,13 +2226,12 @@ namespace CraftEngine
 }
 
 
-
 namespace CraftEngine
 {
 	namespace math
 	{
 
-		uint32_t packUnorm2x16(vec2 v)
+		CRAFT_ENGINE_MATH_FUNC_DECL uint32_t packUnorm2x16(vec2 v)
 		{
 			union PackStructure
 			{
@@ -2245,7 +2245,7 @@ namespace CraftEngine
 			return p.packedData;
 		}
 
-		vec2 unpackUnorm2x16(uint32_t v)
+		CRAFT_ENGINE_MATH_FUNC_DECL vec2 unpackUnorm2x16(uint32_t v)
 		{
 			union PackStructure
 			{
@@ -2261,7 +2261,7 @@ namespace CraftEngine
 			return d;
 		}
 
-		uint32_t packSnorm2x16(vec2 v)
+		CRAFT_ENGINE_MATH_FUNC_DECL uint32_t packSnorm2x16(vec2 v)
 		{
 			union PackStructure
 			{
@@ -2275,7 +2275,7 @@ namespace CraftEngine
 			return p.packedData;
 		}
 
-		vec2 unpackSnorm2x16(uint32_t v)
+		CRAFT_ENGINE_MATH_FUNC_DECL vec2 unpackSnorm2x16(uint32_t v)
 		{
 			union PackStructure
 			{
@@ -2291,7 +2291,7 @@ namespace CraftEngine
 			return d;
 		}
 
-		uint32_t packUnorm4x8(vec4 v)
+		CRAFT_ENGINE_MATH_FUNC_DECL uint32_t packUnorm4x8(vec4 v)
 		{
 			union PackStructure
 			{
@@ -2305,7 +2305,7 @@ namespace CraftEngine
 			return p.packedData;
 		}
 
-		vec4 unpackUnorm4x8(uint32_t v)
+		CRAFT_ENGINE_MATH_FUNC_DECL vec4 unpackUnorm4x8(uint32_t v)
 		{
 			union PackStructure
 			{
@@ -2321,7 +2321,7 @@ namespace CraftEngine
 			return d;
 		}
 
-		uint32_t packSnorm4x8(vec4 v)
+		CRAFT_ENGINE_MATH_FUNC_DECL uint32_t packSnorm4x8(vec4 v)
 		{
 			union PackStructure
 			{
@@ -2335,7 +2335,7 @@ namespace CraftEngine
 			return p.packedData;
 		}
 
-		vec4 unpackSnorm4x8(uint32_t v)
+		CRAFT_ENGINE_MATH_FUNC_DECL vec4 unpackSnorm4x8(uint32_t v)
 		{
 			union PackStructure
 			{
@@ -2496,24 +2496,24 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> distance(Vector<2, Type> const& a, Vector<2, Type> const& b) { return length(a - b); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> distance(Vector<2, Type> const& a, Vector<2, Type> const& b) { return length(a - b); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> distance(Vector<3, Type> const& a, Vector<3, Type> const& b) { return length(a - b); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> distance(Vector<3, Type> const& a, Vector<3, Type> const& b) { return length(a - b); }
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> reflect(Vector<2, Type> const& I, Vector<2, Type> const& N) { return I - N * dot(N, I) * Type(2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> reflect(Vector<2, Type> const& I, Vector<2, Type> const& N) { return I - N * dot(N, I) * Type(2); }
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> reflect(Vector<3, Type> const& I, Vector<3, Type> const& N) { return I - N * dot(N, I) * Type(2); }
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> reflect(Vector<3, Type> const& I, Vector<3, Type> const& N) { return I - N * dot(N, I) * Type(2); }
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> refract(Vector<2, Type> const& I, Vector<2, Type> const& N, Type eta)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> refract(Vector<2, Type> const& I, Vector<2, Type> const& N, Type eta)
 		{
 			Type const dotValue(dot(N, I));
 			Type const k(static_cast<Type>(1) - eta * eta * (static_cast<Type>(1) - dotValue * dotValue));
 			return (eta * I - (eta * dotValue + sqrt(k)) * N) * static_cast<Type>(k >= static_cast<Type>(0));
 		}
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> refract(Vector<3, Type> const& I, Vector<3, Type> const& N, Type eta)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> refract(Vector<3, Type> const& I, Vector<3, Type> const& N, Type eta)
 		{
 			Type const dotValue(dot(N, I));
 			Type const k(static_cast<Type>(1) - eta * eta * (static_cast<Type>(1) - dotValue * dotValue));
@@ -2523,7 +2523,7 @@ namespace CraftEngine
 		 x, y must be normalized.
 		*/
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type angle(Vector<2, Type> const& x, Vector<2, Type> const& y)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type angle(Vector<2, Type> const& x, Vector<2, Type> const& y)
 		{
 			return acos(clamp(dot(x, y), Type(-1), Type(1)));
 		}
@@ -2531,7 +2531,7 @@ namespace CraftEngine
 		 x, y must be normalized.
 		*/
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type angle(Vector<3, Type> const& x, Vector<2, Type> const& y)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type angle(Vector<3, Type> const& x, Vector<2, Type> const& y)
 		{
 			return acos(clamp(dot(x, y), Type(-1), Type(1)));
 		}
@@ -2539,7 +2539,7 @@ namespace CraftEngine
 		 x, y must be normalized.
 		*/
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type orientedAngle(Vector<2, Type> const& x, Vector<2, Type> const& y)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type orientedAngle(Vector<2, Type> const& x, Vector<2, Type> const& y)
 		{
 			Type const Angle(acos(clamp(dot(x, y), Type(-1), Type(1))));
 			return cross(x, y) > Type(0) ? Angle : -Angle;
@@ -2548,14 +2548,14 @@ namespace CraftEngine
 		 x, y must be normalized.
 		*/
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type orientedAngle(Vector<3, Type> const& x, Vector<3, Type> const& y, Vector<3, Type> const& ref)
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type orientedAngle(Vector<3, Type> const& x, Vector<3, Type> const& y, Vector<3, Type> const& ref)
 		{
 			Type const Angle(acos(clamp(dot(x, y), Type(-1), Type(1))));
 			return dot(ref, cross(x, y)) > Type(0) ? Angle : -Angle;
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> lineClosestPoint
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> lineClosestPoint
 		(
 			Vector<3, Type> const& point,
 			Vector<3, Type> const& a,
@@ -2572,7 +2572,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineClosestPoint
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineClosestPoint
 		(
 			Vector<2, Type> const& point,
 			Vector<2, Type> const& a,
@@ -2589,7 +2589,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineIntersection(
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineIntersection(
 			Vector<2, Type> const& p1,
 			Vector<2, Type> const& p2,
 			Vector<2, Type> const& q1,
@@ -2607,7 +2607,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineIntersectionX(
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineIntersectionX(
 			Vector<2, Type> const& p1,
 			Vector<2, Type> const& p2,
 			Type x
@@ -2620,7 +2620,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineIntersectionY(
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<2, Type> lineIntersectionY(
 			Vector<2, Type> const& p1,
 			Vector<2, Type> const& p2,
 			Type y
@@ -2633,7 +2633,7 @@ namespace CraftEngine
 		}
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Vector<3, Type> lineSurfaceIntersection(
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Vector<3, Type> lineSurfaceIntersection(
 			Vector<3, Type> const& a,
 			Vector<3, Type> const& b,
 			Vector<3, Type> const& p,
@@ -2653,7 +2653,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR std::tuple<Vector<3, Type>, Vector<3, Type>> surfaceIntersection(
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR std::tuple<Vector<3, Type>, Vector<3, Type>> surfaceIntersection(
 			Vector<3, Type> const& p1,
 			Vector<3, Type> const& n1,
 			Vector<3, Type> const& p2,
@@ -2674,7 +2674,7 @@ namespace CraftEngine
 
 
 		template<typename Type>
-		CRAFT_ENGINE_INLINE CRAFT_ENGINE_CONSTEXPR Type lineAABBIntersection(
+		CRAFT_ENGINE_MATH_FUNC_DECL CRAFT_ENGINE_CONSTEXPR Type lineAABBIntersection(
 			Vector<3, Type> const& p,
 			Vector<3, Type> const& n,
 			AABB const& aabb

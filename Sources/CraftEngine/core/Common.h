@@ -1,11 +1,4 @@
 #pragma once
 #include "../Common.h"
 
-namespace CraftEngine
-{
-	namespace core
-	{
-
-
-	}
-}
+#define CRAFT_ENGINE_CORE_API CRAFT_ENGINE_INLINE

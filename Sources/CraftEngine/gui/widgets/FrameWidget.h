@@ -15,6 +15,7 @@ namespace CraftEngine
 			PushButton* m_closeButton;
 			String      m_title;
 			Point       m_basepoint;
+			Offset      m_resizeOffset = Offset(0);
 
 			bool        m_isTough = false;
 			bool        m_isResizable = true;
@@ -42,7 +43,7 @@ namespace CraftEngine
 				}
 			}
 		public:
-
+			craft_engine_gui_signal(resized, void(const Size&));
 
 			FrameWidget(const String& title, const Rect& rect, Widget* parent) : Widget(rect, parent)
 			{
@@ -157,7 +158,11 @@ namespace CraftEngine
 			}
 
 		protected:
-			virtual void onResizeEvent(const ResizeEvent& resizeEvent) override { _Reset_Title_Text_Layout(); }
+			virtual void onResizeEvent(const ResizeEvent& resizeEvent) override 
+			{ 
+				craft_engine_gui_emit(resized, getSize());
+				_Reset_Title_Text_Layout();
+			}
 
 			virtual Widget* onDetect(const MouseEvent& mouseEvent) override final
 			{
@@ -293,6 +298,7 @@ namespace CraftEngine
 			{
 				m_isResizing = false;
 				m_isDraging = false;
+				m_resizeOffset = Offset(0);
 				Widget::onDragApply(mouseEvent);
 			}
 
@@ -301,10 +307,11 @@ namespace CraftEngine
 				if (m_isTough || m_maximized)
 					return;
 
-				if (m_resizeState > 0)
-				{
+				if (m_resizeState > 0 && mouseEvent.widget == this)
+				{			
 					auto rect = getRect();
-					auto offset = mouseEvent.offset - getDragOffset();
+					auto offset = mouseEvent.offset - m_resizeOffset;
+					//std::cout << offset.x << "," << offset.y << std::endl;
 					auto min_size = getMinSizeLimit();
 					auto max_size = getMaxSizeLimit();
 					auto real_offset = mouseEvent.offset;
@@ -340,8 +347,8 @@ namespace CraftEngine
 						rect.mY = temp_point - rect.mHeight;
 						temp_offset.y = temp_size.y - rect.mHeight;
 					}
-					real_offset = getDragOffset() + temp_offset;
-					setDragOffset(real_offset);
+					real_offset = m_resizeOffset + temp_offset;
+					m_resizeOffset = (real_offset);
 					setRect(rect);
 					m_isResizing = true;
 				}

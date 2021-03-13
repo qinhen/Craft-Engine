@@ -13,7 +13,7 @@ namespace CraftEngine
 		{
 
 		
-			static void _Load_Default_Assets()
+			CRAFT_ENGINE_STATIC void _Load_Default_Assets()
 			{
 
 
@@ -540,7 +540,7 @@ namespace CraftEngine
 
 
 
-			static void _Load_Default_Font_File()
+			CRAFT_ENGINE_STATIC void _Load_Default_Font_File()
 			{
 				static const uint8_t data[] =
 				{
@@ -1880,7 +1880,7 @@ namespace CraftEngine
 
 
 
-			static void _Load_Fixed_Width_Font_File()
+			CRAFT_ENGINE_STATIC void _Load_Fixed_Width_Font_File()
 			{
 				static const uint8_t data[] =
 				{

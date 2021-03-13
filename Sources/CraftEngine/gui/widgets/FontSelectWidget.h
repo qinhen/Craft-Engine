@@ -90,7 +90,7 @@ namespace CraftEngine
 				m_fontColorSelector->setColor(m_currentFormat.getColor());
 
 				// line 4
-				m_labels[4] = new Label(L"HAligment", this);
+				m_labels[4] = new Label(L"HAlignment", this);
 				m_fontHAlignmentCheckBox[0] = new CheckBox(L"Left", this);
 				m_fontHAlignmentCheckBox[1] = new CheckBox(L"Center", this);
 				m_fontHAlignmentCheckBox[2] = new CheckBox(L"Right", this);
@@ -100,7 +100,7 @@ namespace CraftEngine
 				m_fontHAlignmentCheckBox[0]->getCheckButton()->setCheckState(CheckButton::eCheckState_Selected);
 
 				// line 5
-				m_labels[5] = new Label(L"VAligment", this);
+				m_labels[5] = new Label(L"VAlignment", this);
 				m_fontVAlignmentCheckBox[0] = new CheckBox(L"Top", this);
 				m_fontVAlignmentCheckBox[1] = new CheckBox(L"Center", this);
 				m_fontVAlignmentCheckBox[2] = new CheckBox(L"Bottom", this);
@@ -345,59 +345,60 @@ namespace CraftEngine
 
 				int inputWidth = 60;
 				int y = 0;
+				int textLineHeight = math::max(110, getHeight() - 22 * 10);
 				// line 0
-				m_exampleText->setRect(Rect(0, 0, getWidth(), 110));
-				y += 110;
+				m_exampleText->setRect(Rect(0, 0, getWidth(), textLineHeight).padding(2, 2));
+				y += textLineHeight;
 				// line 1
-				m_labels[1]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontSelectBox->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22));
+				m_labels[1]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontSelectBox->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22).padding(2, 2));
 				y += 22;
 				// line 2
-				m_labels[2]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontSizeInput->setRect(Rect(labelWidth, y, inputWidth, 22));
-				m_fontSizeSlider->setRect(Rect(labelWidth + inputWidth, y, getWidth() - (labelWidth + inputWidth), 22));
+				m_labels[2]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontSizeInput->setRect(Rect(labelWidth, y, inputWidth, 22).padding(2, 2));
+				m_fontSizeSlider->setRect(Rect(labelWidth + inputWidth, y, getWidth() - (labelWidth + inputWidth), 22).padding(2, 2));
 				y += 22;
 
 				// line 3
-				m_labels[3]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontColorSelector->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22));
+				m_labels[3]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontColorSelector->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22).padding(2, 2));
 				y += 22;
 
 				// line 4
-				m_labels[4]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontHAlignmentCheckBox[0]->setRect(Rect(labelWidth, y, (getWidth() - labelWidth) / 3 * 1, 22));
-				m_fontHAlignmentCheckBox[1]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 1, y, (getWidth() - labelWidth) / 3 * 2, 22));
-				m_fontHAlignmentCheckBox[2]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 2, y, getWidth() - (getWidth() - labelWidth) / 3 * 2 - labelWidth, 22));
+				m_labels[4]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontHAlignmentCheckBox[0]->setRect(Rect(labelWidth, y, (getWidth() - labelWidth) / 3 * 1, 22).padding(2, 2));
+				m_fontHAlignmentCheckBox[1]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 1, y, (getWidth() - labelWidth) / 3 * 2, 22).padding(2, 2));
+				m_fontHAlignmentCheckBox[2]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 2, y, getWidth() - (getWidth() - labelWidth) / 3 * 2 - labelWidth, 22).padding(2, 2));
 				y += 22;
 
 				// line 5
-				m_labels[5]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontVAlignmentCheckBox[0]->setRect(Rect(labelWidth, y, (getWidth() - labelWidth) / 3 * 1, 22));
-				m_fontVAlignmentCheckBox[1]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 1, y, (getWidth() - labelWidth) / 3 * 2, 22));
-				m_fontVAlignmentCheckBox[2]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 2, y, getWidth() - (getWidth() - labelWidth) / 3 * 2 - labelWidth, 22));
+				m_labels[5]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontVAlignmentCheckBox[0]->setRect(Rect(labelWidth, y, (getWidth() - labelWidth) / 3 * 1, 22).padding(2, 2));
+				m_fontVAlignmentCheckBox[1]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 1, y, (getWidth() - labelWidth) / 3 * 2, 22).padding(2, 2));
+				m_fontVAlignmentCheckBox[2]->setRect(Rect(labelWidth + (getWidth() - labelWidth) / 3 * 2, y, getWidth() - (getWidth() - labelWidth) / 3 * 2 - labelWidth, 22).padding(2, 2));
 				y += 22;
 
 				// line 6
-				m_labels[6]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontModeSelectBox->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22));
+				m_labels[6]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontModeSelectBox->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22).padding(2, 2));
 				y += 22;
 				// line 7
-				m_labels[7]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontEdgeModeSelectBox->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22));
+				m_labels[7]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontEdgeModeSelectBox->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22).padding(2, 2));
 				y += 22;
 				// line 8
-				m_labels[8]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontEdgeSizeInput->setRect(Rect(labelWidth, y, inputWidth, 22));
-				m_fontEdgeSizeSlider->setRect(Rect(labelWidth + inputWidth, y, getWidth() - (labelWidth + inputWidth), 22));
+				m_labels[8]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontEdgeSizeInput->setRect(Rect(labelWidth, y, inputWidth, 22).padding(2, 2));
+				m_fontEdgeSizeSlider->setRect(Rect(labelWidth + inputWidth, y, getWidth() - (labelWidth + inputWidth), 22).padding(2, 2));
 				y += 22;
 				// line 9
-				m_labels[9]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontSlopeInput->setRect(Rect(labelWidth, y, inputWidth, 22));
-				m_fontSlopeSlider->setRect(Rect(labelWidth + inputWidth, y, getWidth() - (labelWidth + inputWidth), 22));
+				m_labels[9]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontSlopeInput->setRect(Rect(labelWidth, y, inputWidth, 22).padding(2, 2));
+				m_fontSlopeSlider->setRect(Rect(labelWidth + inputWidth, y, getWidth() - (labelWidth + inputWidth), 22).padding(2, 2));
 				y += 22;
 				// line 10
-				m_labels[10]->setRect(Rect(0, y, labelWidth, 22));
-				m_fontEdgeColorSelector->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22));
+				m_labels[10]->setRect(Rect(0, y, labelWidth, 22).padding(2, 2));
+				m_fontEdgeColorSelector->setRect(Rect(labelWidth, y, getWidth() - labelWidth, 22).padding(2, 2));
 				y += 22;
 			}
 

@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <exception>
 #include <regex>
+#include <type_traits>
 
 #define CRAFT_ENGINE_STATIC static
 #define CRAFT_ENGINE_EXPLICIT explicit
@@ -53,11 +54,7 @@ struct type_name \
 
 
 
-
-
-
-
-
+#define CRAFT_ENGINE_API
 
 
 
@@ -67,6 +64,9 @@ namespace CraftEngine
 
 }
 
+#define CRAFT_ENGINE CraftEngine::
+#define CRAFT_ENGINE_BEGIN namespace CraftEngine {
+#define CRAFT_ENGINE_END } 
 #define USING_CRAFT_ENGINE using namespace CraftEngine;
 
 

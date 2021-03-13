@@ -203,7 +203,7 @@ namespace CraftEngine
 		class Server
 		{
 		private:
-			util::Thread m_listeningThread;
+			core::Thread m_listeningThread;
 			Socket m_listenSocket;
 
 			struct Instance

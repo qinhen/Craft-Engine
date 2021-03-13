@@ -246,7 +246,7 @@ namespace CraftEngine
 				}
 
 				if (m_curIndex >= 0 && m_elemList[m_curIndex].mType == eMenu && m_elemList[m_curIndex].mSubMenu->m_isMenuShow)
-					drawChild(m_elemList[m_curIndex].mSubMenu);
+					drawChild2(m_elemList[m_curIndex].mSubMenu);
 
 				drawFrame();
 			}

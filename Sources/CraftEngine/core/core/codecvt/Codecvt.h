@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common.h"
 #include <string>
 
 namespace CraftEngine
@@ -10,42 +11,42 @@ namespace CraftEngine
         namespace codecvt
         {
             // 从UTF16编码字符串构建，需要带BOM标记
-            std::string utf16_to_utf8(const std::wstring& u16str);
+            CRAFT_ENGINE_CORE_API std::string utf16_to_utf8(const std::wstring& u16str);
 
             // 从UTF16 LE编码的字符串创建
-            std::string utf16le_to_utf8(const wchar_t* u16str, size_t count);
-            std::string utf16le_to_utf8(const std::wstring& u16str);
+            CRAFT_ENGINE_CORE_API std::string utf16le_to_utf8(const wchar_t* u16str, size_t count);
+            CRAFT_ENGINE_CORE_API std::string utf16le_to_utf8(const std::wstring& u16str);
 
             // 从UTF16BE编码字符串创建
-            std::string utf16be_to_utf8(const wchar_t* u16str, size_t count);
-            std::string utf16be_to_utf8(const std::wstring& u16str);
+            CRAFT_ENGINE_CORE_API std::string utf16be_to_utf8(const wchar_t* u16str, size_t count);
+            CRAFT_ENGINE_CORE_API std::string utf16be_to_utf8(const std::wstring& u16str);
 
 
             // 获取转换为UTF-16 LE编码的字符串
-            std::wstring utf8_to_utf16le(const char* u8str, size_t count, bool addbom = false, bool* ok = NULL);
-            std::wstring utf8_to_utf16le(const std::string& u8str, bool addbom = false, bool* ok = NULL);
+            CRAFT_ENGINE_CORE_API std::wstring utf8_to_utf16le(const char* u8str, size_t count, bool addbom = false, bool* ok = NULL);
+            CRAFT_ENGINE_CORE_API  std::wstring utf8_to_utf16le(const std::string& u8str, bool addbom = false, bool* ok = NULL);
 
             // 获取转换为UTF-16 BE的字符串
-            std::wstring utf8_to_utf16be(const char* u8str, size_t count, bool addbom = false, bool* ok = NULL);
-            std::wstring utf8_to_utf16be(const std::string& u8str, bool addbom = false, bool* ok = NULL);
+            CRAFT_ENGINE_CORE_API std::wstring utf8_to_utf16be(const char* u8str, size_t count, bool addbom = false, bool* ok = NULL);
+            CRAFT_ENGINE_CORE_API std::wstring utf8_to_utf16be(const std::string& u8str, bool addbom = false, bool* ok = NULL);
 
 
-
-            static inline uint16_t byteswap_ushort(uint16_t number)
+            namespace detail
             {
+                static inline uint16_t byteswap_ushort(uint16_t number)
+                {
 #if defined(_MSC_VER) && _MSC_VER > 1310
-                return _byteswap_ushort(number);
+                    return _byteswap_ushort(number);
 #elif defined(__GNUC__)
-                return __builtin_bswap16(number);
+                    return __builtin_bswap16(number);
 #else
-                return (number >> 8) | (number << 8);
+                    return (number >> 8) | (number << 8);
 #endif
+                }
             }
 
 
-
             //     以下转换都是在小端序下进行     //
-
 
             // 从UTF16编码字符串构建，需要带BOM标记
             std::string utf16_to_utf8(const std::wstring& u16str)
@@ -154,7 +155,7 @@ namespace CraftEngine
                     // 这里假设是在小端序下(大端序不适用)
                     u16char = p[i];
                     // 将大端序转为小端序
-                    u16char = byteswap_ushort(u16char);
+                    u16char = detail::byteswap_ushort(u16char);
 
                     // 1字节表示部分
                     if (u16char < 0x0080) {
@@ -174,7 +175,7 @@ namespace CraftEngine
                     if (u16char >= 0xD800 && u16char <= 0xDBFF) {
                         // * U-00010000 - U-001FFFFF: 1111 0xxx 10xxxxxx 10xxxxxx 10xxxxxx
                         uint32_t highSur = u16char;
-                        uint32_t lowSur = byteswap_ushort(p[++i]);
+                        uint32_t lowSur = detail::byteswap_ushort(p[++i]);
                         // 从代理项对到UNICODE代码点转换
                         // 1、从高代理项减去0xD800，获取有效10bit
                         // 2、从低代理项减去0xDC00，获取有效10bit
@@ -305,7 +306,7 @@ namespace CraftEngine
                 std::wstring u16str = utf8_to_utf16le(u8str, count, addbom, ok);
                 // 将小端序转换为大端序
                 for (size_t i = 0; i < u16str.size(); ++i) {
-                    u16str[i] = byteswap_ushort(u16str[i]);
+                    u16str[i] = detail::byteswap_ushort(u16str[i]);
                 }
                 return u16str;
             }

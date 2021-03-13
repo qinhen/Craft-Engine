@@ -9,6 +9,8 @@
 #include "../math/LinearMath.h"
 
 
+#define CRAFT_ENGINE_GUI_API CRAFT_ENGINE_INLINE
+
 namespace CraftEngine
 {
 
@@ -30,9 +32,9 @@ namespace CraftEngine
 
 		namespace _Gui_Api_Detail
 		{
-			static void _Load_Default_Assets();
-			static void _Load_Default_Font_File();
-			static void _Load_Fixed_Width_Font_File();
+			CRAFT_ENGINE_STATIC void _Load_Default_Assets();
+			CRAFT_ENGINE_STATIC void _Load_Default_Font_File();
+			CRAFT_ENGINE_STATIC void _Load_Fixed_Width_Font_File();
 		}
 
 
@@ -141,6 +143,10 @@ namespace CraftEngine
 			}
 			inline bool inside(const Point& point)const {
 				return point.x >= this->left() && point.y >= this->top() && point.x < this->right() && point.y < this->bottom();
+			}
+
+			inline Rect padding(int x, int y)const {
+				return Rect(mX + x, mY + y, mWidth - 2 * x, mHeight - 2 * y);
 			}
 
 			inline void print()
@@ -1663,10 +1669,18 @@ namespace CraftEngine
 			const int& getAlpha() const { return m_currentAlpha; }
 			const int& getBaseAlpha() const { return m_baseAlpha; }
 
+			void setScissor()
+			{
+				m_scissorRect = getGlobalLimit();
+			}
 			void setScissor(const Rect& scissor)
 			{
 				Rect globalScissorRect = Rect(getGlobalBasepoint() + scissor.mOffset, scissor.mSize);
 				m_scissorRect = getGlobalLimit().disjunction(globalScissorRect);
+			}
+			void setAlpha()
+			{
+				m_currentAlpha = math::clamp(getBaseAlpha(), 0, 255);
 			}
 			void setAlpha(int alpha)
 			{
@@ -1829,7 +1843,7 @@ namespace CraftEngine
 		{\
 			if(_CRAFT_ENGINE_GUI_SIGNAL_LOCK_PREFIX(signalname) == false) {\
 				_CRAFT_ENGINE_GUI_SIGNAL_LOCK_PREFIX(signalname) = true;\
-				_CRAFT_ENGINE_GUI_SIGNAL_DEFINE_PREFIX(signalname).call(args...);\
+				_CRAFT_ENGINE_GUI_SIGNAL_DEFINE_PREFIX(signalname).call(std::forward(args)...);\
 				_CRAFT_ENGINE_GUI_SIGNAL_LOCK_PREFIX(signalname) = false;\
 			}\
 		}\
@@ -1953,6 +1967,15 @@ namespace CraftEngine
 			}info;
 			LayoutMode mode = eCustomLayout;
 
+			Layout()
+			{
+				
+			}
+
+			Layout(LayoutMode mode)
+			{
+				setMode(mode);
+			}
 
 			void clear() { mode = eCustomLayout; }
 			/*
@@ -2282,9 +2305,13 @@ namespace CraftEngine
 		public:
 			craft_engine_gui_signal(triggered, void(void));
 			craft_engine_gui_signal(checked, void(bool));
-			Action() {}
-			Action(const String& text) : m_text(text) {}
+			Action(): m_icon(nullptr) {}
+			Action(const String& text, HandleImage icon, std::function<void(void)> trigger) : m_text(text), m_icon(icon) { craft_engine_gui_connect_v2(this, triggered, trigger); }
+			Action(const String& text, HandleImage icon, std::function<void(bool)> check) : m_text(text), m_icon(icon) { craft_engine_gui_connect_v2(this, checked, check); }
 			Action(const String& text, HandleImage icon) : m_text(text), m_icon(icon) {}
+			Action(const String& text) : m_text(text), m_icon(nullptr) {}
+			Action(const String& text, std::function<void(void)> trigger) : m_text(text), m_icon(nullptr) { craft_engine_gui_connect_v2(this, triggered, trigger); }
+			Action(const String& text, std::function<void(bool)> check) : m_text(text), m_icon(nullptr) { craft_engine_gui_connect_v2(this, checked, check); }
 
 			void setIcon(HandleImage icon) { m_icon = icon; }
 			HandleImage getIcon() const { return m_icon; }
@@ -2351,36 +2378,36 @@ namespace CraftEngine
 {
 	namespace gui
 	{
-		inline void Painter::drawLine(const Point& p1, const Point& p2, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawLine(const Point& p1, const Point& p2, const Color& color)
 		{
 			drawLine(p1, p2, color, color);
 		}
 
-		inline void Painter::drawLine(const PointF& p1, const PointF& p2, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawLine(const PointF& p1, const PointF& p2, const Color& color)
 		{
 			drawLine(p1, p2, color, color);
 		}
 
-		inline void Painter::drawLine(const Point& p1, const Point& p2, const Color& color1, const Color color2)
+		CRAFT_ENGINE_GUI_API void Painter::drawLine(const Point& p1, const Point& p2, const Color& color1, const Color color2)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
 			drawLineNoCheck(p1, p2, color1, color2);
 		}
 
-		inline void Painter::drawLine(const PointF& p1, const PointF& p2, const Color& color1, const Color color2)
+		CRAFT_ENGINE_GUI_API void Painter::drawLine(const PointF& p1, const PointF& p2, const Color& color1, const Color color2)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
 			drawLineNoCheck(p1, p2, color1, color2);
 		}
 
-		inline void Painter::drawLineNoCheck(const Point& p1, const Point& p2, const Color& color1, const Color color2)
+		CRAFT_ENGINE_GUI_API void Painter::drawLineNoCheck(const Point& p1, const Point& p2, const Color& color1, const Color color2)
 		{
 			drawLineNoCheck(PointF(p1), PointF(p2), color1, color2);
 		}
 
-		inline void Painter::drawLineNoCheck(const PointF& p1, const PointF& p2, const Color& color1, const Color color2)
+		CRAFT_ENGINE_GUI_API void Painter::drawLineNoCheck(const PointF& p1, const PointF& p2, const Color& color1, const Color color2)
 		{
 			auto& offset = getGlobalBasepoint();
 			vec2 points[2] = { p1 + vec2(offset) + 0.5f, p2 + vec2(offset) + 0.5f };
@@ -2408,7 +2435,7 @@ namespace CraftEngine
 			pushData(vertices, 4, indices, 6);
 		}
 
-		inline void Painter::drawRect(const Rect& rect, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawRect(const Rect& rect, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2436,7 +2463,7 @@ namespace CraftEngine
 			pushData(vertices, 4, indices, 6);
 		}
 
-		inline void Painter::drawRect(const Rect& rect, const HandleImage& image)
+		CRAFT_ENGINE_GUI_API void Painter::drawRect(const Rect& rect, const HandleImage& image)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2464,7 +2491,7 @@ namespace CraftEngine
 			pushData(vertices, 4, indices, 6);
 		}
 
-		inline void Painter::drawRectFrame(const Rect& rect, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawRectFrame(const Rect& rect, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2516,7 +2543,7 @@ namespace CraftEngine
 			pushData(vertices, 16, indices, 24);
 		}
 
-		inline void Painter::drawSDF(const Rect& rect, const Color& color, const HandleImage image)
+		CRAFT_ENGINE_GUI_API void Painter::drawSDF(const Rect& rect, const Color& color, const HandleImage image)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2544,7 +2571,7 @@ namespace CraftEngine
 			pushData(vertices, 4, indices, 6);
 		}
 
-		inline void Painter::drawTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const Color& color)
 		{
 			if (count <= 0)
 				return;
@@ -2589,7 +2616,7 @@ namespace CraftEngine
 			}
 		}
 
-		inline void Painter::drawColorTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const Color* colorList)
+		CRAFT_ENGINE_GUI_API void Painter::drawColorTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const Color* colorList)
 		{
 			if (count <= 0)
 				return;
@@ -2635,7 +2662,7 @@ namespace CraftEngine
 			}
 		}
 
-		inline void Painter::drawPaletteTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const Color* colorList, const uint16_t* colorIdxList)
+		CRAFT_ENGINE_GUI_API void Painter::drawPaletteTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const Color* colorList, const uint16_t* colorIdxList)
 		{
 			if (count <= 0)
 				return;
@@ -2681,17 +2708,17 @@ namespace CraftEngine
 			}
 		}
 
-		inline void Painter::drawRichTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const RichTextFormat& format)
+		CRAFT_ENGINE_GUI_API void Painter::drawRichTextLine(const Char* pStr, uint32_t count, const Point& point, Font& font, const RichTextFormat& format)
 		{
 			drawTextLine(pStr, count, point, font, format.getColor());
 		}
 
-		inline void Painter::drawTriangle(const Point& p1, const Point& p2, const Point& p3, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawTriangle(const Point& p1, const Point& p2, const Point& p3, const Color& color)
 		{
 			drawTriangle(PointF(p1), PointF(p2), PointF(p3), color);
 		}
 
-		inline void Painter::drawTriangle(const PointF& p1, const PointF& p2, const PointF& p3, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawTriangle(const PointF& p1, const PointF& p2, const PointF& p3, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2713,12 +2740,12 @@ namespace CraftEngine
 			pushData(vertices, 3, indices, 3);
 		}
 
-		inline void Painter::drawTriangleFrame(const Point& p1, const Point& p2, const Point& p3, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawTriangleFrame(const Point& p1, const Point& p2, const Point& p3, const Color& color)
 		{
 			drawTriangleFrame(PointF(p1), PointF(p2), PointF(p3), color);
 		}
 
-		inline void Painter::drawTriangleFrame(const PointF& p1, const PointF& p2, const PointF& p3, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawTriangleFrame(const PointF& p1, const PointF& p2, const PointF& p3, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2728,32 +2755,32 @@ namespace CraftEngine
 			drawLineNoCheck(p3, p1, color, color);
 		}
 
-		inline void Painter::drawCircle(const Point& center, float radius, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawCircle(const Point& center, float radius, float delta, const Color& color)
 		{
 			drawEllipse(center, radius, radius, delta, color);
 		}
 
-		inline void Painter::drawCircle(const PointF& center, float radius, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawCircle(const PointF& center, float radius, float delta, const Color& color)
 		{
 			drawEllipse(center, radius, radius, delta, color);
 		}
 
-		inline void Painter::drawCircleFrame(const Point& center, float radius, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawCircleFrame(const Point& center, float radius, float delta, const Color& color)
 		{
 			drawEllipseFrame(center, radius, radius, delta, color);
 		}
 
-		inline void Painter::drawCircleFrame(const PointF& center, float radius, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawCircleFrame(const PointF& center, float radius, float delta, const Color& color)
 		{
 			drawEllipseFrame(center, radius, radius, delta, color);
 		}
 
-		inline void Painter::drawEllipse(const Point& center, float rx, float ry, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawEllipse(const Point& center, float rx, float ry, float delta, const Color& color)
 		{
 			drawEllipse(PointF(center), rx, ry, delta, color);
 		}
 
-		inline void Painter::drawEllipse(const PointF& center, float rx, float ry, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawEllipse(const PointF& center, float rx, float ry, float delta, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2786,12 +2813,12 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawEllipseFrame(const Point& center, float rx, float ry, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawEllipseFrame(const Point& center, float rx, float ry, float delta, const Color& color)
 		{
 			drawEllipseFrame(PointF(center), rx, ry, delta, color);
 		}
 
-		inline void Painter::drawEllipseFrame(const PointF& center, float rx, float ry, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawEllipseFrame(const PointF& center, float rx, float ry, float delta, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
@@ -2814,7 +2841,7 @@ namespace CraftEngine
 			drawLineNoCheck(p1, p2, color, color);
 		}
 
-		inline void Painter::drawRoundRect(const Rect& rect, float radius, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawRoundRect(const Rect& rect, float radius, float delta, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2861,7 +2888,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawRoundRect(const Rect& rect, float radius, float delta, const HandleImage& image)
+		CRAFT_ENGINE_GUI_API void Painter::drawRoundRect(const Rect& rect, float radius, float delta, const HandleImage& image)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -2908,7 +2935,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawRoundRectFrame(const Rect& rect, float radius, float delta, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawRoundRectFrame(const Rect& rect, float radius, float delta, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
@@ -2944,7 +2971,7 @@ namespace CraftEngine
 			}
 		}
 
-		inline void Painter::drawPolyline(const Point* vertices, uint32_t count, bool close, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolyline(const Point* vertices, uint32_t count, bool close, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
@@ -2954,7 +2981,7 @@ namespace CraftEngine
 				drawLineNoCheck(vertices[count - 1], vertices[0], color, color);
 		}
 
-		inline void Painter::drawPolyline(const PointF* vertices, uint32_t count, bool close, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolyline(const PointF* vertices, uint32_t count, bool close, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
@@ -2964,7 +2991,7 @@ namespace CraftEngine
 				drawLineNoCheck(vertices[count - 1], vertices[0], color, color);
 		}
 
-		inline void Painter::drawPolyline(const Point* vertices, uint32_t count, bool close, const Color* colors)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolyline(const Point* vertices, uint32_t count, bool close, const Color* colors)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
@@ -2974,7 +3001,7 @@ namespace CraftEngine
 				drawLineNoCheck(vertices[count - 1], vertices[0], colors[count - 1], colors[0]);
 		}
 
-		inline void Painter::drawPolyline(const PointF* vertices, uint32_t count, bool close, const Color* colors)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolyline(const PointF* vertices, uint32_t count, bool close, const Color* colors)
 		{
 			auto& scissor = getGlobalScissor();
 			checkState(getDefaultImage(), scissor, 0);
@@ -2984,7 +3011,7 @@ namespace CraftEngine
 				drawLineNoCheck(vertices[count - 1], vertices[0], colors[count - 1], colors[0]);
 		}
 
-		inline void Painter::drawPolygon(const Point* vertices, uint32_t count, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolygon(const Point* vertices, uint32_t count, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3010,7 +3037,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawPolygon(const PointF* vertices, uint32_t count, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolygon(const PointF* vertices, uint32_t count, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3036,7 +3063,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawPolygon(const Point* vertices, uint32_t count, const Color* colors)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolygon(const Point* vertices, uint32_t count, const Color* colors)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3062,7 +3089,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawPolygon(const PointF* vertices, uint32_t count, const Color* colors)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolygon(const PointF* vertices, uint32_t count, const Color* colors)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3088,12 +3115,12 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawWideLine(const Point& p1, const Point& p2, float width, const Color& color1, const Color color2)
+		CRAFT_ENGINE_GUI_API void Painter::drawWideLine(const Point& p1, const Point& p2, float width, const Color& color1, const Color color2)
 		{
 			drawWideLine(PointF(p1), PointF(p2), width, color1, color2);
 		}
 
-		inline void Painter::drawWideLine(const PointF& p1, const PointF& p2, float width, const Color& color1, const Color color2)
+		CRAFT_ENGINE_GUI_API void Painter::drawWideLine(const PointF& p1, const PointF& p2, float width, const Color& color1, const Color color2)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3124,7 +3151,7 @@ namespace CraftEngine
 		}
 
 
-		inline void Painter::drawWidePolyline(const Point* vertices, uint32_t count, float width, bool close, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawWidePolyline(const Point* vertices, uint32_t count, float width, bool close, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3252,7 +3279,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawWidePolyline(const PointF* vertices, uint32_t count, float width, bool close, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawWidePolyline(const PointF* vertices, uint32_t count, float width, bool close, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3380,7 +3407,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawWidePolyline(const Point* vertices, uint32_t count, float width, bool close, const Color* colors)
+		CRAFT_ENGINE_GUI_API void Painter::drawWidePolyline(const Point* vertices, uint32_t count, float width, bool close, const Color* colors)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3513,7 +3540,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawWidePolyline(const PointF* vertices, uint32_t count, float width, bool close, const Color* colors)
+		CRAFT_ENGINE_GUI_API void Painter::drawWidePolyline(const PointF* vertices, uint32_t count, float width, bool close, const Color* colors)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3645,7 +3672,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawWideRoundPolyline(const Point* vertices, uint32_t count, float width, bool close, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawWideRoundPolyline(const Point* vertices, uint32_t count, float width, bool close, const Color& color)
 		{
 			float clamped_width = math::max(1.0f, width);
 			for (int i = 1; i < count; i++)
@@ -3657,7 +3684,7 @@ namespace CraftEngine
 				drawCircle(vertices[i], radius, 0.5f, color);
 		}
 
-		inline void Painter::drawWideRoundPolyline(const PointF* vertices, uint32_t count, float width, bool close, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawWideRoundPolyline(const PointF* vertices, uint32_t count, float width, bool close, const Color& color)
 		{
 			float clamped_width = math::max(1.0f, width);
 			for (int i = 1; i < count; i++)
@@ -3669,7 +3696,7 @@ namespace CraftEngine
 				drawCircle(vertices[i], radius, 0.5f, color);
 		}
 
-		inline void Painter::drawPolygonEx(const PolygonInfo& info, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolygonEx(const PolygonInfo& info, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3715,7 +3742,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawPolygonEx(const PolygonInfo& info)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolygonEx(const PolygonInfo& info)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -3782,7 +3809,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawPolylineEx(const PolygonInfo& info, const Color& color)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolylineEx(const PolygonInfo& info, const Color& color)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -4048,7 +4075,7 @@ namespace CraftEngine
 			submitData(draw_buffer);
 		}
 
-		inline void Painter::drawPolylineEx(const PolygonInfo& info)
+		CRAFT_ENGINE_GUI_API void Painter::drawPolylineEx(const PolygonInfo& info)
 		{
 			auto& scissor = getGlobalScissor();
 			auto& offset = getGlobalBasepoint();
@@ -4330,7 +4357,7 @@ namespace CraftEngine
 
 
 		// GuiRenderSystem
-		void GuiRenderSystem::initSystem(AbstractGuiRenderSystem* renderSystem)
+		CRAFT_ENGINE_GUI_API void GuiRenderSystem::initSystem(AbstractGuiRenderSystem* renderSystem)
 		{
 			if (!m_isInitialized)
 			{
@@ -4347,7 +4374,7 @@ namespace CraftEngine
 				throw std::runtime_error("Gui Renderer System is already initialized");
 			}
 		}
-		void GuiRenderSystem::destroySystem()
+		CRAFT_ENGINE_GUI_API void GuiRenderSystem::destroySystem()
 		{
 			if (m_isInitialized)
 			{
@@ -4363,27 +4390,32 @@ namespace CraftEngine
 				throw std::runtime_error("Gui Renderer System is not yet initialized");
 			}
 		}
-		inline bool GuiRenderSystem::isInitialized()
+		CRAFT_ENGINE_GUI_API inline bool GuiRenderSystem::isInitialized()
 		{
 			return m_isInitialized;
 		}
-		HandleImage GuiRenderSystem::createImage(const void* data, uint32_t size, uint32_t width, uint32_t height){
+		CRAFT_ENGINE_GUI_API HandleImage GuiRenderSystem::createImage(const void* data, uint32_t size, uint32_t width, uint32_t height){
 			return m_renderSystem->createImage(data, size, width, height);
-		}inline void GuiRenderSystem::deleteImage(HandleImage image){
+		}
+		CRAFT_ENGINE_GUI_API  void GuiRenderSystem::deleteImage(HandleImage image){
 			m_renderSystem->deleteImage(image);
-		}inline void GuiRenderSystem::updateImage(HandleImage image, const void* data, uint32_t size, uint32_t width, uint32_t height) {
+		}
+		CRAFT_ENGINE_GUI_API  void GuiRenderSystem::updateImage(HandleImage image, const void* data, uint32_t size, uint32_t width, uint32_t height) {
 			m_renderSystem->updateImage(image, data, size, width, height);		
-		}inline ImageInfo GuiRenderSystem::getImageInfo(HandleImage image){
+		}
+		CRAFT_ENGINE_GUI_API ImageInfo GuiRenderSystem::getImageInfo(HandleImage image){
 			return m_renderSystem->getImageInfo(image);
-		}inline AbstractGuiCanvas* GuiRenderSystem::createGuiCanvas(const Size& size) {
+		}
+		CRAFT_ENGINE_GUI_API AbstractGuiCanvas* GuiRenderSystem::createGuiCanvas(const Size& size) {
 			return m_renderSystem->createGuiCanvas(size);
-		}inline void GuiRenderSystem::deleteGuiCanvas(AbstractGuiCanvas* canvas) {
+		}
+		CRAFT_ENGINE_GUI_API void GuiRenderSystem::deleteGuiCanvas(AbstractGuiCanvas* canvas) {
 			return m_renderSystem->deleteGuiCanvas(canvas);
 		}
 
 
 
-		HandleImage GuiAssetsManager::loadImage(const std::string& name)
+		CRAFT_ENGINE_GUI_API HandleImage GuiAssetsManager::loadImage(const std::string& name)
 		{
 			auto it = m_images.find(name);
 			if (it == m_images.end())
@@ -4394,12 +4426,12 @@ namespace CraftEngine
 			else
 				return it->second;
 		}
-		void GuiAssetsManager::storeImage(const char* name, HandleImage image)
+		CRAFT_ENGINE_GUI_API void GuiAssetsManager::storeImage(const char* name, HandleImage image)
 		{
 			auto pair = std::make_pair<std::string, HandleImage>(std::string(name), HandleImage(image));
 			m_images.emplace(pair);
 		}
-		inline HandleCursor GuiAssetsManager::loadCursor(const std::string& name)
+		CRAFT_ENGINE_GUI_API inline HandleCursor GuiAssetsManager::loadCursor(const std::string& name)
 		{
 			auto it = m_cursors.find(name);
 			if (it == m_cursors.end())
@@ -4410,12 +4442,12 @@ namespace CraftEngine
 			else
 				return HandleCursor(it->second);	
 		}
-		inline void GuiAssetsManager::storeCursor(const char* name, AbstractCursor* cursor)
+		CRAFT_ENGINE_GUI_API inline void GuiAssetsManager::storeCursor(const char* name, AbstractCursor* cursor)
 		{
 			auto pair = std::make_pair<std::string, AbstractCursor*>(std::string(name), (AbstractCursor*)(cursor));
 			m_cursors.emplace(pair);
 		}
-		inline void GuiAssetsManager::clear()
+		CRAFT_ENGINE_GUI_API inline void GuiAssetsManager::clear()
 		{
 			for (auto it : m_images)
 				GuiRenderSystem::deleteImage(it.second);
@@ -4427,7 +4459,7 @@ namespace CraftEngine
 
 
 
-		void GuiFontSystem::freeFont(uint32_t id)
+		CRAFT_ENGINE_GUI_API void GuiFontSystem::freeFont(uint32_t id)
 		{
 			if (m_instanceList[id] != nullptr)
 			{
@@ -4437,7 +4469,7 @@ namespace CraftEngine
 			}
 		}
 
-		void GuiFontSystem::loadFont(const FontFile* font, uint32_t id)
+		CRAFT_ENGINE_GUI_API void GuiFontSystem::loadFont(const FontFile* font, uint32_t id)
 		{
 			freeFont(id);
 			m_instanceList[id] = new FontInstance;
@@ -4474,22 +4506,22 @@ namespace CraftEngine
 			m_instanceList[id]->m_fontImage = GuiRenderSystem::createImage(fontBitmap.data(), fontBitmap.size(), fontBitmap.width(), fontBitmap.height());
 		}
 
-		const GuiFontSystem::FontUnit& GuiFontSystem::getGlobalFontUnit(Char idx, int id)
+		CRAFT_ENGINE_GUI_API const GuiFontSystem::FontUnit& GuiFontSystem::getGlobalFontUnit(Char idx, int id)
 		{
 			return m_instanceList[id]->m_fontUnits[idx];
 		}
-		HandleImage GuiFontSystem::getGlobalFontImage(int id)
+		CRAFT_ENGINE_GUI_API HandleImage GuiFontSystem::getGlobalFontImage(int id)
 		{
 			return m_instanceList[id]->m_fontImage;
 		}
-		float GuiFontSystem::getGlobalFontCharWidth(Char c, int id)
+		CRAFT_ENGINE_GUI_API float GuiFontSystem::getGlobalFontCharWidth(Char c, int id)
 		{
 			return m_instanceList[id]->m_fontUnits[c].xadvance;
 		}
 
 
 
-		int GuiFontSystem::calcFontLineWidth(const Char* pStr, int32_t count, const Font& font)
+		CRAFT_ENGINE_GUI_API int GuiFontSystem::calcFontLineWidth(const Char* pStr, int32_t count, const Font& font)
 		{
 			int wacc = 0.0f;
 			float scalar = font.getSize() * getGlobalFontScalar(font.getFontID());
@@ -4498,15 +4530,15 @@ namespace CraftEngine
 				wacc += step_forward(getGlobalFontUnit(pStr[i], font.getFontID()).xadvance, scalar, interval);//
 			return wacc;
 		}
-		int GuiFontSystem::calcFontLineWidth(const String& str, const Font& font)
+		CRAFT_ENGINE_GUI_API int GuiFontSystem::calcFontLineWidth(const String& str, const Font& font)
 		{
 			return calcFontLineWidth(str.data(), str.size(), font);
 		}
-		int GuiFontSystem::calcFontLineWidth(const StringRef& str, const Font& font)
+		CRAFT_ENGINE_GUI_API int GuiFontSystem::calcFontLineWidth(const StringRef& str, const Font& font)
 		{
 			return calcFontLineWidth(str.data(), str.size(), font);
 		}
-		Point GuiFontSystem::calcFontBasePoint(const Char* pStr, int32_t count, const Rect& rect, const Font& font)
+		CRAFT_ENGINE_GUI_API Point GuiFontSystem::calcFontBasePoint(const Char* pStr, int32_t count, const Rect& rect, const Font& font)
 		{
 			float w = GuiFontSystem::calcFontLineWidth(pStr, count, font);
 			float x = 0, y = 0;
@@ -4535,15 +4567,15 @@ namespace CraftEngine
 			}
 			return Point(roundf(x), roundf(y));
 		}
-		Point GuiFontSystem::calcFontBasePoint(const String& str, const Rect& rect, const Font& font)
+		CRAFT_ENGINE_GUI_API Point GuiFontSystem::calcFontBasePoint(const String& str, const Rect& rect, const Font& font)
 		{
 			return calcFontBasePoint(str.data(), str.size(), rect, font);
 		}
-		Point GuiFontSystem::calcFontBasePoint(const StringRef& str, const Rect& rect, const Font& font)
+		CRAFT_ENGINE_GUI_API Point GuiFontSystem::calcFontBasePoint(const StringRef& str, const Rect& rect, const Font& font)
 		{
 			return GuiFontSystem::calcFontBasePoint(str.data(), str.size(), rect, font);
 		}
-		int GuiFontSystem::calcFontPointerIndex(const Char* pStr, int32_t count, int xcooed, const Font& font)
+		CRAFT_ENGINE_GUI_API int GuiFontSystem::calcFontPointerIndex(const Char* pStr, int32_t count, int xcooed, const Font& font)
 		{
 			int x = 0;
 			int interval = font.getInterval();
@@ -4569,16 +4601,16 @@ namespace CraftEngine
 			}
 			return index;
 		}
-		int GuiFontSystem::calcFontPointerIndex(const String& str, int xcooed, const Font& font)
+		CRAFT_ENGINE_GUI_API int GuiFontSystem::calcFontPointerIndex(const String& str, int xcooed, const Font& font)
 		{
 			return calcFontPointerIndex(str.data(), str.size(), xcooed, font);
 		}
-		int GuiFontSystem::calcFontPointerIndex(const StringRef& str, int xcooed, const Font& font)
+		CRAFT_ENGINE_GUI_API int GuiFontSystem::calcFontPointerIndex(const StringRef& str, int xcooed, const Font& font)
 		{
 			return calcFontPointerIndex(str.data(), str.size(), xcooed, font);
 		}
 
-		Rect GuiFontSystem::calcFontCursorRect(const Char* pStr, int32_t count, Point basepoint, const Font& font)
+		CRAFT_ENGINE_GUI_API Rect GuiFontSystem::calcFontCursorRect(const Char* pStr, int32_t count, Point basepoint, const Font& font)
 		{
 			auto w = GuiFontSystem::calcFontLineWidth(pStr, count, font);
 			auto scalar = font.getSize() * GuiFontSystem::getGlobalFontScalar(font.getFontID());
@@ -4590,17 +4622,17 @@ namespace CraftEngine
 			return rect;
 		}
 
-		Rect GuiFontSystem::calcFontCursorRect(const String& str, Point basepoint, const Font& font)
+		CRAFT_ENGINE_GUI_API Rect GuiFontSystem::calcFontCursorRect(const String& str, Point basepoint, const Font& font)
 		{
 			return calcFontCursorRect(str.data(), str.size(), basepoint, font);
 		}
 
-		Rect GuiFontSystem::calcFontCursorRect(const StringRef& str, Point basepoint, const Font& font)
+		CRAFT_ENGINE_GUI_API Rect GuiFontSystem::calcFontCursorRect(const StringRef& str, Point basepoint, const Font& font)
 		{
 			return calcFontCursorRect(str.data(), str.size(), basepoint, font);
 		}
 
-		void GuiColorStyle::init(ColorStyle color_style)
+		CRAFT_ENGINE_GUI_API void GuiColorStyle::init(ColorStyle color_style)
 		{
 			cur_color_style = color_style;
 			StyleData style;
@@ -4666,7 +4698,7 @@ namespace CraftEngine
 			_Init(style);
 		}
 
-		void GuiColorStyle::_Init(const StyleData& style)
+		CRAFT_ENGINE_GUI_API void GuiColorStyle::_Init(const StyleData& style)
 		{
 			foreground_color = style[15];
 			background_color = style[0];
@@ -4846,7 +4878,7 @@ namespace CraftEngine
 		namespace _Gui_Api_Detail
 		{
 
-			core::ArrayList<Rect> calcFlowLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::FlowLayoutInfo& info)
+			CRAFT_ENGINE_STATIC core::ArrayList<Rect> calcFlowLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::FlowLayoutInfo& info)
 			{
 				core::ArrayList<Rect> itemLayout;
 				if (items.size() == 0)
@@ -4986,9 +5018,7 @@ namespace CraftEngine
 				return itemLayout;
 			}
 
-
-
-			core::ArrayList<Rect> calcRowLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::RowLayoutInfo& info)
+			CRAFT_ENGINE_STATIC core::ArrayList<Rect> calcRowLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::RowLayoutInfo& info)
 			{
 				core::ArrayList<Rect> itemLayout;
 				if (items.size() == 0)
@@ -5015,8 +5045,7 @@ namespace CraftEngine
 				return itemLayout;
 			}
 
-
-			core::ArrayList<Rect> calcColLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::ColLayoutInfo& info)
+			CRAFT_ENGINE_STATIC core::ArrayList<Rect> calcColLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::ColLayoutInfo& info)
 			{
 				core::ArrayList<Rect> itemLayout;
 				if (items.size() == 0)
@@ -5043,7 +5072,7 @@ namespace CraftEngine
 				return itemLayout;
 			}
 
-			core::ArrayList<Rect> calcGridLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::GridLayoutInfo& info)
+			CRAFT_ENGINE_STATIC core::ArrayList<Rect> calcGridLayout(const core::ArrayList<Size>& items, const Size& area, const Layout::GridLayoutInfo& info)
 			{
 				core::ArrayList<Rect> itemLayout;
 				core::ArrayList<Size> normalizedItems(items.size());
@@ -5062,7 +5091,7 @@ namespace CraftEngine
 
 
 
-		core::ArrayList<Rect> Layout::calcLayout(const core::ArrayList<Size>& items, const Size& area)
+		CRAFT_ENGINE_GUI_API core::ArrayList<Rect> Layout::calcLayout(const core::ArrayList<Size>& items, const Size& area)
 		{
 			core::ArrayList<Rect> itemLayoutList;
 			switch (mode)

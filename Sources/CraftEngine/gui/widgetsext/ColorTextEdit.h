@@ -104,7 +104,7 @@ namespace CraftEngine
 			};
 		private:
 			using CharList = String;
-			using ColorList = core::ArrayList<uint16_t>;
+			using ColorList = std::vector<uint16_t>;
 
 			struct CharAttribute
 			{
@@ -114,7 +114,7 @@ namespace CraftEngine
 				CharAttribute() :mComment(false), mMultiLineComment(false), mPreprocessor(false) { sizeof(*this); }
 			};
 
-			using AttribList = core::ArrayList<CharAttribute>;
+			using AttribList = std::vector<CharAttribute>;
 			struct Line
 			{
 				Point basepoint;
@@ -122,7 +122,7 @@ namespace CraftEngine
 				ColorList colors;
 				AttribList attribs;
 			};
-			using Lines = core::ArrayList<Line>;
+			using Lines = std::vector<Line>;
 
 			typedef std::unordered_map<String, Identifier> Identifiers;
 			typedef std::unordered_set<String> Keywords;
@@ -160,6 +160,7 @@ namespace CraftEngine
 				static const LanguageDefinition& SQL();
 				static const LanguageDefinition& AngelScript();
 				static const LanguageDefinition& Lua();
+				static const LanguageDefinition& CMake();
 			};
 
 			class StatueBarWidget : public Widget
@@ -199,11 +200,11 @@ namespace CraftEngine
 				}
 				void setStatueLineIndex(int x)
 				{
-					m_lineIndexLabel->setText(L"line:" + StringTool::fromValue(x));
+					m_lineIndexLabel->setText(L"Line:" + StringTool::fromValue(x));
 				}
 				void setStatueColumnIndex(int x)
 				{
-					m_columnIndexLabel->setText(L"column:" + StringTool::fromValue(x));
+					m_columnIndexLabel->setText(L"Column:" + StringTool::fromValue(x));
 				}
 				void setLanguageList(const StringList& langs)
 				{
@@ -220,15 +221,14 @@ namespace CraftEngine
 			};
 
 
-
 			Lines m_lines;
 
 			Color m_textPalette[21];
 			typedef std::vector<std::pair<std::wregex, PaletteIndex>> RegexList;
-			LanguageDefinition mLanguageDefinition;
+			LanguageDefinition m_languageDefinition;
 			RegexList mRegexList;
-			bool m_CheckComments = true;
-			bool m_TextChanged = true;
+			bool m_shouldCheckComments = true;
+			bool m_isTextChanged = true;
 			int m_colorizeBeginLine = 0;
 			int m_maxLineWidth = 0;
 
@@ -246,7 +246,7 @@ namespace CraftEngine
 
 			ColorTextEdit(Widget* parent) : ScrollWidget(parent)
 			{
-				getFont().setFontID((int)FontSystem::FontIndex::eFixedWidth);
+				getFont().setFontID((int)GuiFontSystem::FontIndex::eFixedWidth);
 				getFont().getAlignment().mHorizonMode = Alignment::eAlignmentMode_Left;
 				setCharAcceptable(true);
 				//setDragable(true);
@@ -255,11 +255,11 @@ namespace CraftEngine
 				setCursorType(AbstractCursor::SystemCursorType::eEditCursor);
 				setPalette(GuiColorStyle::getSytle(GuiColorStyle::WidgetType::eTextInput));
 				m_lines.push_back(Line());
-				m_lines[0].basepoint = FontSystem::calcFontBasePoint(StringRef(), Rect(0, 0, getWidth(), _Get_YLen()), getFont());
+				m_lines[0].basepoint = GuiFontSystem::calcFontBasePoint(StringRef(), Rect(0, 0, getWidth(), _Get_YLen()), getFont());
 				setTextPaletteStyle((int)GuiColorStyle::getCurColorSytle());
 
 				m_statueBar = new StatueBarWidget(nullptr);
-				m_statueBar->setGroupid(3);
+				m_statueBar->setGroupid(4);
 				m_statueBar->bindParentWidget(this);
 				//this->bindChildWidget(m_statueBar);
 				m_statueBar->setRect(Rect(0, 0, getWidth(), m_tabOffset.y));
@@ -267,7 +267,7 @@ namespace CraftEngine
 				m_statueBar->setStatueLineIndex(0);
 				m_statueBar->setStatueColumnIndex(0);
 
-				m_statueBar->setLanguageList({ L"disable",L"C++",L"C",L"GLSL",L"Lua",L"HLSL",L"SQL", });
+				m_statueBar->setLanguageList({ L"disable",L"C++",L"C",L"GLSL",L"Lua",L"HLSL",L"SQL",L"CMake" });
 				m_statueBar->setLanguageFunc([=](int i) {
 					switch (i)
 					{
@@ -278,10 +278,11 @@ namespace CraftEngine
 					case 4: setLanguage("Lua"); break;
 					case 5: setLanguage("HLSL"); break;
 					case 6: setLanguage("SQL"); break;
+					case 7: setLanguage("CMake"); break;
 					default:setLanguage("disable"); break;
 					}
 				});
-
+				setLanguage("disable");
 				_Update_Cursor_Rect();
 			}
 
@@ -294,15 +295,15 @@ namespace CraftEngine
 
 			void setLanguageDefinition(const LanguageDefinition& aLanguageDef)
 			{
-				mLanguageDefinition = aLanguageDef;
+				m_languageDefinition = aLanguageDef;
 				mRegexList.clear();
 
-				for (auto& r : mLanguageDefinition.mTokenRegexStrings)
+				for (auto& r : m_languageDefinition.mTokenRegexStrings)
 					mRegexList.push_back(std::make_pair(std::wregex(r.first, std::regex_constants::optimize), r.second));
 
 				Colorize();
 			}
-			const LanguageDefinition& getLanguageDefinition() const { return mLanguageDefinition; }
+			const LanguageDefinition& getLanguageDefinition() const { return m_languageDefinition; }
 
 			void setLanguage(const std::string& name)
 			{
@@ -310,7 +311,7 @@ namespace CraftEngine
 				for (auto& it : copy)
 					it = tolower(it);
 				setLanguageDefinition(LanguageDefinition::getLanguage(copy));
-				auto selections = { "disable", "c++", "c", "glsl", "lua", "hlsl", "sql", };
+				auto selections = { "disable", "c++", "c", "glsl", "lua", "hlsl", "sql", "cmake", };
 				int i = 0;
 				for (auto it : selections)
 				{
@@ -327,7 +328,9 @@ namespace CraftEngine
 			void setEditable(bool enable) { m_isEditable = enable; }
 			bool isEditable() { return m_isEditable; }
 
-			void setText(const std::string& aText)
+
+
+			void setText(const String& aText)
 			{
 				m_lines.clear();
 				m_lines.emplace_back(Line());
@@ -345,17 +348,17 @@ namespace CraftEngine
 				auto yLen = _Get_YLen();
 				m_maxLineWidth = 0;
 				for (int i = 0; i < m_lines.size(); i++)
-					m_lines[i].basepoint = FontSystem::calcFontBasePoint(m_lines[i].chars, Rect(0, yLen * i, getWidth(), yLen), getFont());
+					m_lines[i].basepoint = GuiFontSystem::calcFontBasePoint(m_lines[i].chars, Rect(0, yLen * i, getWidth(), yLen), getFont());
 				for (int i = 0; i < m_lines.size(); i++)
 				{
-					auto w = FontSystem::calcFontLineWidth(m_lines[i].chars, getFont());
+					auto w = GuiFontSystem::calcFontLineWidth(m_lines[i].chars, getFont());
 					if (w > m_maxLineWidth)
 						m_maxLineWidth = w;
 				}
 				setScrollArea(m_tabOffset + Size(m_maxLineWidth + 100, yLen * (m_lines.size() + 10)));
 
-				m_TextChanged = true;
-				m_CheckComments = true;
+				m_isTextChanged = true;
+				m_shouldCheckComments = true;
 				m_colorizeBeginLine = 0;
 
 				m_cursorPos = Coordinates();
@@ -365,82 +368,76 @@ namespace CraftEngine
 				Colorize();
 			}
 
-			void onPaint_drawStatueBar(const PaintEvent& paintEvent)
-			{
-				GuiRenderer* renderer = paintEvent.pRenderer;
-				const Point& global_relative_point = paintEvent.globalRelativePoint;
-				const Rect& global_limit_rect = paintEvent.globalLimitRect;
+			//void onPaint_drawStatueBar(const PaintEvent& paintEvent)
+			//{
+			//	GuiRenderer* renderer = paintEvent.pRenderer;
+			//	const Point& global_relative_point = paintEvent.globalRelativePoint;
+			//	const Rect& global_limit_rect = paintEvent.globalLimitRect;
 
-				auto this_global_rect = Rect(global_relative_point + getPos(), getSize());
-				auto this_global_base_point = this_global_rect.mOffset;
-				Rect child_global_limit_rect = global_limit_rect.disjunction(this_global_rect);
+			//	auto this_global_rect = Rect(global_relative_point + getPos(), getSize());
+			//	auto this_global_base_point = this_global_rect.mOffset;
+			//	Rect child_global_limit_rect = global_limit_rect.disjunction(this_global_rect);
 
-				PaintEvent subEvent;
-				subEvent.pRenderer = paintEvent.pRenderer;
-				subEvent.globalRelativePoint = this_global_base_point;
-				subEvent.globalLimitRect = child_global_limit_rect;
-				if (!m_statueBar->isHide())
-					m_statueBar->onPaintEvent(subEvent);
-			}
+			//	PaintEvent subEvent;
+			//	subEvent.pRenderer = paintEvent.pRenderer;
+			//	subEvent.globalRelativePoint = this_global_base_point;
+			//	subEvent.globalLimitRect = child_global_limit_rect;
+			//	if (!m_statueBar->isHide())
+			//		m_statueBar->onPaintEvent(subEvent);
+			//}
 
-			virtual void onPaintEvent(const PaintEvent& paintEvent) override
+			virtual void onPaintEvent() override
 			{
 				_Frame_Colorize();
-
-				GuiRenderer* renderer = paintEvent.pRenderer;
-				const Point& global_relative_point = paintEvent.globalRelativePoint;
-				const Rect& global_limit_rect = paintEvent.globalLimitRect;
-
-				auto this_global_rect = Rect(global_relative_point + getPos(), getSize());
-				Rect child_global_limit_rect = global_limit_rect.disjunction(this_global_rect);
-				auto basepoint = this_global_rect.mOffset;
-				auto total_offset = this_global_rect.mOffset + getChildOriginal(0);
-				auto vertical_tab_offset = this_global_rect.mOffset + getChildOriginal(1);
-				auto horizontal_tab_offset = this_global_rect.mOffset + getChildOriginal(2);
-				onPaint_drawBackground(renderer, this_global_rect, global_limit_rect);
-
 				auto range = _Get_Visual_Line_Range();
-				auto text_global_limit_rect = child_global_limit_rect;
-				text_global_limit_rect.mOffset += m_tabOffset;
-				text_global_limit_rect.mSize -= m_tabOffset;
-				for (int i = range.x; i < range.y; i++)
-				{
-					auto basepoint = m_lines[i].basepoint + total_offset;
-					renderer->drawPaletteTextLine(m_lines[i].chars.data(), m_lines[i].chars.size(), basepoint, getFont(), m_textPalette, m_lines[i].colors.data(), text_global_limit_rect);
-				}
-
 				const int yLen = _Get_YLen();
-				if (isInputFocus())
+
 				{
-					if (!m_timer.isValid())
+					auto painter = getPainter();
+					auto this_global_rect = Rect(Point(0), getSize());
+					auto basepoint = this_global_rect.mOffset;
+					//auto total_offset = this_global_rect.mOffset + getChildOriginal(0);
+					drawBackground();
+					auto text_global_limit_rect = this_global_rect;
+					text_global_limit_rect.mOffset -= getChildOriginal(0) - m_tabOffset;
+					text_global_limit_rect.mSize -= m_tabOffset;
+					painter.setScissor(text_global_limit_rect);
+					for (int i = range.x; i < range.y; i++)
 					{
-						m_timer.setDuration(500);
-						m_timer.setCallback(CraftEngine::core::Callback<void(float, float)>([=](float, float) { m_draw = !m_draw; }));
-						auto main_window = this->getRootWidget();
-						if (main_window != nullptr)
-							m_timer.startTimer(main_window->getSyncTimerSystem());
+						auto basepoint = m_lines[i].basepoint;// +total_offset;
+						
+						painter.drawPaletteTextLine(m_lines[i].chars.data(), m_lines[i].chars.size(), basepoint, getFont(), m_textPalette, m_lines[i].colors.data());
 					}
-					if (m_draw)
+
+					if (isInputFocus())
 					{
-						auto baseCur = m_cursorRect;
-						baseCur.mOffset = m_cursorRect.mOffset + total_offset;
-						renderer->drawRect(baseCur, getPalette().mForegroundColor, text_global_limit_rect);
+						if (!m_timer.isValid())
+						{
+							m_timer.setDuration(500);
+							m_timer.setCallback(CraftEngine::core::Callback<void(float, float)>([=](float, float) { m_draw = !m_draw; sendRepaintEvent(); }));
+							auto main_window = this->getRootWidget();
+							if (main_window != nullptr)
+								m_timer.startTimer(main_window->getSyncTimerSystem());
+						}
+						if (m_draw)
+						{
+							auto baseCur = m_cursorRect;
+							//baseCur.mOffset = m_cursorRect.mOffset + total_offset;
+							painter.drawRect(baseCur, getPalette().mForegroundColor);
+						}
+						int w = math::max(m_maxLineWidth + 100, getWidth());
+						Rect lineFrameRect = Rect(0, m_cursorPos.mLine * yLen, w, yLen);//
+						//lineFrameRect.mOffset += total_offset;
+						painter.drawRectFrame(lineFrameRect, getPalette().mFrameColor);
 					}
-					int w = math::max(m_maxLineWidth + 100, getWidth());
-					Rect lineFrameRect = Rect(0, m_cursorPos.mLine * yLen, w, yLen);//
-					lineFrameRect.mOffset += total_offset;
-					renderer->drawRectFrame(lineFrameRect, getPalette().mFrameColor, text_global_limit_rect);
 				}
 
 				{
-					// vertical tab frame
-					Rect verticalBarRect = Rect(0, m_tabOffset.y, m_tabOffset.x, getHeight() - m_tabOffset.y);
-					verticalBarRect.mOffset += this_global_rect.mOffset;
+					auto painter2 = getPainter(3);
 
 					// vertical tab index
 					Rect verticalTabRect = Rect(0, 0, m_tabOffset.x, yLen);
-					verticalTabRect.mOffset += getChildOriginal(2);
-					verticalTabRect.mOffset += this_global_rect.mOffset;
+					//verticalTabRect.mOffset += getChildOriginal(2);
 					int baseY = verticalTabRect.mY;
 					Font tabFont = getFont();
 					tabFont.getAlignment().mHorizonMode = Alignment::eAlignmentMode_Right;
@@ -448,23 +445,29 @@ namespace CraftEngine
 					{
 						verticalTabRect.mY = baseY + yLen * i;
 						String&& lineIdxStr = StringTool::fromValue(i + 1);
-						auto basepoint = FontSystem::calcFontBasePoint(lineIdxStr, verticalTabRect, tabFont);
-						renderer->drawTextLine(lineIdxStr, basepoint, getFont(), m_textPalette[(int)PaletteIndex::LineNumber], verticalBarRect);
+						auto basepoint = GuiFontSystem::calcFontBasePoint(lineIdxStr, verticalTabRect, tabFont);
+						//painter.setScissor(verticalBarRect);
+						//painter.setScissor();
+						painter2.drawTextLine(lineIdxStr, basepoint, getFont(), m_textPalette[(int)PaletteIndex::LineNumber]);
 					}
-
-					renderer->drawRectFrame(verticalBarRect, getPalette().mFrameColor, child_global_limit_rect);
+					// vertical tab frame
+					Rect verticalBarRect = Rect(0, -getChildOriginal(0).y + m_tabOffset.y, m_tabOffset.x, getHeight() - m_tabOffset.y);
+					painter2.drawRectFrame(verticalBarRect, getPalette().mFrameColor);
 				}
-				onPaint_drawScrollBar(paintEvent);
-				onPaint_drawStatueBar(paintEvent);
-				renderer->drawRectFrame(this_global_rect, getPalette().mFrameColor, global_limit_rect);
+
+				onPaint_drawScrollBar();
+				drawChild(m_statueBar);
+				//painter.setScissor();
+				//onPaint_drawStatueBar(paintEvent);
+				drawFrame();
 			}
 
 		protected:
 			/*
 			 0: scroll widget space
-			 1: srcoll bar
-			 2: vertical tab
-			 3: horizontal tab
+			 2: srcoll bar
+			 3: vertical tab
+			 4: horizontal tab
 			*/
 			virtual Point getChildOriginal(int groupid = 0)const
 			{
@@ -472,11 +475,11 @@ namespace CraftEngine
 				{
 				case 0:
 					return ScrollWidget::getChildOriginal(0) + m_tabOffset;
-				case 1:
-					return Point(0);
-				case 2:
-					return Point(0, ScrollWidget::getChildOriginal(0).y + m_tabOffset.y);
+				case GroupID::gScrollBar:
+					return ScrollWidget::getChildOriginal(groupid);
 				case 3:
+					return Point(0, ScrollWidget::getChildOriginal(0).y + m_tabOffset.y);
+				case 4:
 					return Point(0);
 				default:
 					return Point(0);
@@ -487,7 +490,7 @@ namespace CraftEngine
 			{
 				Widget* hit;
 				MouseEvent subEvent = mouseEvent;
-				subEvent.local -= (getPos() + getChildOriginal(3));
+				subEvent.local -= (getPos() + getChildOriginal(4));
 				hit = m_statueBar->onMouseEvent(subEvent);
 				return hit;
 			}
@@ -542,9 +545,9 @@ namespace CraftEngine
 					m_lines[line - 1].chars.swap(new_str);
 					m_lines[line - 1].colors.resize(m_lines[line - 1].chars.size());
 					m_lines[line - 1].attribs.resize(m_lines[line - 1].chars.size());
-					m_lines[line - 1].basepoint = FontSystem::calcFontBasePoint(m_lines[line - 1].chars, Rect(0, yLen * (line - 1), getWidth(), yLen), getFont());
+					m_lines[line - 1].basepoint = GuiFontSystem::calcFontBasePoint(m_lines[line - 1].chars, Rect(0, yLen * (line - 1), getWidth(), yLen), getFont());
 
-					auto w = FontSystem::calcFontLineWidth(m_lines[line - 1].chars, getFont());
+					auto w = GuiFontSystem::calcFontLineWidth(m_lines[line - 1].chars, getFont());
 					if (w > m_maxLineWidth)
 						m_maxLineWidth = w;
 
@@ -566,10 +569,10 @@ namespace CraftEngine
 				else if (column > 0) // && m_highlightText.size() == 0)
 				{
 					auto yLen = _Get_YLen();
-					m_lines[line].chars.erase(column - 1, 1); //
-					m_lines[line].attribs.erase(column - 1);
-					m_lines[line].colors.erase(column - 1);
-					m_lines[line].basepoint = FontSystem::calcFontBasePoint(m_lines[line].chars, Rect(0, yLen * (line), getWidth(), yLen), getFont());
+					m_lines[line].chars.erase(m_lines[line].chars.begin() + column - 1, m_lines[line].chars.begin() + column); //
+					m_lines[line].attribs.erase(m_lines[line].attribs.begin() + column - 1, m_lines[line].attribs.begin() + column);
+					m_lines[line].colors.erase(m_lines[line].colors.begin() + column - 1, m_lines[line].colors.begin() + column);
+					m_lines[line].basepoint = GuiFontSystem::calcFontBasePoint(m_lines[line].chars, Rect(0, yLen * (line), getWidth(), yLen), getFont());
 				}
 			}
 
@@ -595,22 +598,22 @@ namespace CraftEngine
 					//	m_lines[line + 1].chars.clear();
 					m_lines[line + 1].attribs.resize(count);
 					m_lines[line + 1].colors.resize(count);
-					m_lines[line + 1].basepoint = FontSystem::calcFontBasePoint(m_lines[line + 1].chars, Rect(0, yLen * (line + 1), getWidth(), yLen), getFont());
+					m_lines[line + 1].basepoint = GuiFontSystem::calcFontBasePoint(m_lines[line + 1].chars, Rect(0, yLen * (line + 1), getWidth(), yLen), getFont());
 
 					m_lines[line].chars.resize(begin);
 					m_lines[line].attribs.resize(begin);
 					m_lines[line].colors.resize(begin);
-					m_lines[line].basepoint = FontSystem::calcFontBasePoint(m_lines[line].chars, Rect(0, yLen * (line), getWidth(), yLen), getFont());
+					m_lines[line].basepoint = GuiFontSystem::calcFontBasePoint(m_lines[line].chars, Rect(0, yLen * (line), getWidth(), yLen), getFont());
 				}
 				else
 				{
 					auto yLen = _Get_YLen();
 					m_lines[line].chars.insert(m_lines[line].chars.begin() + column, c);
-					m_lines[line].attribs.insert(column, CharAttribute());
-					m_lines[line].colors.insert(column, (uint16_t)PaletteIndex::Default);
-					m_lines[line].basepoint = FontSystem::calcFontBasePoint(m_lines[line].chars, Rect(0, yLen * (line), getWidth(), yLen), getFont());
+					m_lines[line].attribs.insert(m_lines[line].attribs.begin() + column, CharAttribute());
+					m_lines[line].colors.insert(m_lines[line].colors.begin() + column, (uint16_t)PaletteIndex::Default);
+					m_lines[line].basepoint = GuiFontSystem::calcFontBasePoint(m_lines[line].chars, Rect(0, yLen * (line), getWidth(), yLen), getFont());
 
-					auto w = FontSystem::calcFontLineWidth(m_lines[line].chars, getFont());
+					auto w = GuiFontSystem::calcFontLineWidth(m_lines[line].chars, getFont());
 					if (w > m_maxLineWidth)
 						m_maxLineWidth = w;
 				}
@@ -637,7 +640,7 @@ namespace CraftEngine
 			}
 
 
-			virtual void onAcceptChar(wchar_t c)override final
+			virtual void onAcceptChar(Char c)override final
 			{
 				if (!isEditable())
 					return;
@@ -656,8 +659,8 @@ namespace CraftEngine
 						m_cursorPos.mLine--;
 						m_cursorPos.mColumn = next_column;
 
-						m_TextChanged = true;
-						m_CheckComments = true;
+						m_isTextChanged = true;
+						m_shouldCheckComments = true;
 						m_colorizeBeginLine = m_cursorPos.mLine;
 					}
 					else if (m_cursorPos.mColumn > 0) // && m_highlightText.size() == 0)
@@ -665,8 +668,8 @@ namespace CraftEngine
 						_Remove_Char(m_cursorPos.mLine, m_cursorPos.mColumn);
 						m_cursorPos.mColumn--;
 
-						m_TextChanged = true;
-						m_CheckComments = true;
+						m_isTextChanged = true;
+						m_shouldCheckComments = true;
 						m_colorizeBeginLine = m_cursorPos.mLine;
 					}
 				}
@@ -678,8 +681,8 @@ namespace CraftEngine
 						m_cursorPos.mColumn = 0;
 						m_cursorPos.mLine++;
 
-						m_TextChanged = true;
-						m_CheckComments = true;
+						m_isTextChanged = true;
+						m_shouldCheckComments = true;
 						m_colorizeBeginLine = m_cursorPos.mLine - 1;
 					}
 					else
@@ -687,8 +690,8 @@ namespace CraftEngine
 						_Insert_Char(m_cursorPos.mLine, m_cursorPos.mColumn, c);
 						m_cursorPos.mColumn++;
 
-						m_TextChanged = true;
-						m_CheckComments = true;
+						m_isTextChanged = true;
+						m_shouldCheckComments = true;
 						m_colorizeBeginLine = m_cursorPos.mLine;
 					}
 				}
@@ -720,13 +723,13 @@ namespace CraftEngine
 				{
 					auto local_pos = getLocalPos(mouseEvent.global);
 					const int ylen = _Get_YLen(); //
-					int line_index = CraftEngine::math::clamp(local_pos.y / ylen, 0, m_lines.size() - 1);
-					int line_char_index = FontSystem::calcFontPointerIndex(m_lines[line_index].chars, local_pos.x - m_lines[line_index].basepoint.x, getFont());
+					int line_index = CraftEngine::math::clamp(local_pos.y / ylen, 0, (int)m_lines.size() - 1);
+					int line_char_index = GuiFontSystem::calcFontPointerIndex(m_lines[line_index].chars, local_pos.x - m_lines[line_index].basepoint.x, getFont());
 					_Set_Cursor(line_index, line_char_index);
 				}
 			}
 
-			virtual void onKeyBoardEvent(KeyboardEvent keyboardEvent)
+			virtual void onKeyBoardEvent(const KeyboardEvent& keyboardEvent) override
 			{
 				if (keyboardEvent.down)
 				{
@@ -759,8 +762,8 @@ namespace CraftEngine
 						auto local_pos = m_cursorRect.mOffset;
 						local_pos.y -= m_cursorRect.mHeight / 2;
 						const int ylen = _Get_YLen(); //
-						int line_index = CraftEngine::math::clamp(local_pos.y / ylen, 0, m_lines.size() - 1);
-						int line_char_index = FontSystem::calcFontPointerIndex(m_lines[line_index].chars, local_pos.x - m_lines[line_index].basepoint.x, getFont());
+						int line_index = CraftEngine::math::clamp(local_pos.y / ylen, 0, (int)m_lines.size() - 1);
+						int line_char_index = GuiFontSystem::calcFontPointerIndex(m_lines[line_index].chars, local_pos.x - m_lines[line_index].basepoint.x, getFont());
 						_Set_Cursor(line_index, line_char_index);
 					}
 					else if (keyboardEvent.key == (KeyBoard::eKey_Down))
@@ -768,8 +771,8 @@ namespace CraftEngine
 						auto local_pos = m_cursorRect.mOffset;
 						local_pos.y += m_cursorRect.mHeight / 2 + m_cursorRect.mHeight;
 						const int ylen = _Get_YLen(); //
-						int line_index = CraftEngine::math::clamp(local_pos.y / ylen, 0, m_lines.size() - 1);
-						int line_char_index = FontSystem::calcFontPointerIndex(m_lines[line_index].chars, local_pos.x - m_lines[line_index].basepoint.x, getFont());
+						int line_index = CraftEngine::math::clamp(local_pos.y / ylen, 0, (int)m_lines.size() - 1);
+						int line_char_index = GuiFontSystem::calcFontPointerIndex(m_lines[line_index].chars, local_pos.x - m_lines[line_index].basepoint.x, getFont());
 						_Set_Cursor(line_index, line_char_index);
 					}
 				}
@@ -793,7 +796,7 @@ namespace CraftEngine
 				const int line = m_cursorPos.mLine;
 				const int column = m_cursorPos.mColumn;
 				auto base_point = m_lines[line].basepoint;
-				m_cursorRect = FontSystem::calcFontCursorRect(StringRef(m_lines[line].chars.c_str(), column), base_point, getFont());
+				m_cursorRect = GuiFontSystem::calcFontCursorRect(StringRef(m_lines[line].chars.c_str(), column), base_point, getFont());
 				m_draw = true;
 				if (m_timer.isValid())
 					m_timer.restartTimer();
@@ -807,11 +810,11 @@ namespace CraftEngine
 				_Update_Cursor_Rect();
 			}
 
+
 			void CheckComments()
 			{
-				if (m_CheckComments)
+				if (m_shouldCheckComments && !m_languageDefinition.mName.empty())
 				{
-
 					auto endLine = m_lines.size();
 					auto endIndex = 0;
 					auto commentStartLine = endLine;
@@ -841,7 +844,7 @@ namespace CraftEngine
 							//auto& g = line[currentIndex];
 							auto c = line.chars[currentIndex];
 
-							if (c != mLanguageDefinition.mPreprocChar && !isspace(c))
+							if (c != m_languageDefinition.mPreprocChar && !isspace(c))
 								firstChar = false;
 
 							if (currentIndex == (int)line.chars.size() - 1 && line.chars[line.chars.size() - 1] == '\\')
@@ -873,7 +876,7 @@ namespace CraftEngine
 							}
 							else
 							{
-								if (firstChar && c == mLanguageDefinition.mPreprocChar)
+								if (firstChar && c == m_languageDefinition.mPreprocChar)
 									withinPreproc = true;
 
 								if (c == '\"')
@@ -885,8 +888,8 @@ namespace CraftEngine
 								{
 									auto pred = [](const Char& a, const Char& b) { return a == b; };
 									auto from = line.chars.begin() + currentIndex;
-									auto& startStr = mLanguageDefinition.mCommentStart;
-									auto& singleStartStr = mLanguageDefinition.mSingleLineComment;
+									auto& startStr = m_languageDefinition.mCommentStart;
+									auto& singleStartStr = m_languageDefinition.mSingleLineComment;
 
 									if (singleStartStr.size() > 0 &&
 										currentIndex + singleStartStr.size() <= line.chars.size() &&
@@ -907,7 +910,7 @@ namespace CraftEngine
 
 									line.attribs[currentIndex].mComment = withinSingleLineComment;
 
-									auto& endStr = mLanguageDefinition.mCommentEnd;
+									auto& endStr = m_languageDefinition.mCommentEnd;
 									if (currentIndex + 1 >= (int)endStr.size() &&
 										equals(endStr.begin(), endStr.end(), from + 1 - endStr.size(), from + 1, pred))
 									{
@@ -930,9 +933,11 @@ namespace CraftEngine
 							++currentLine;
 						}
 					}
-					m_CheckComments = false;
+					m_shouldCheckComments = false;
 				}
 			}
+
+
 
 			void Colorize()
 			{
@@ -977,9 +982,9 @@ namespace CraftEngine
 
 					bool hasTokenizeResult = false;
 
-					if (mLanguageDefinition.mTokenize != nullptr)
+					if (m_languageDefinition.mTokenize != nullptr)
 					{
-						if (mLanguageDefinition.mTokenize(first, last, token_begin, token_end, token_color))
+						if (m_languageDefinition.mTokenize(first, last, token_begin, token_end, token_color))
 							hasTokenizeResult = true;
 					}
 
@@ -1016,21 +1021,21 @@ namespace CraftEngine
 							id.assign(token_begin, token_end);
 
 							// todo : allmost all language definitions use lower case to specify keywords, so shouldn't this use ::tolower ?
-							if (!mLanguageDefinition.mCaseSensitive)
+							if (!m_languageDefinition.mCaseSensitive)
 								std::transform(id.begin(), id.end(), id.begin(), ::toupper);
 
 							if (!line.attribs[first - bufferBegin].mPreprocessor)
 							{
-								if (mLanguageDefinition.mKeywords.count(id) != 0)
+								if (m_languageDefinition.mKeywords.count(id) != 0)
 									token_color = PaletteIndex::Keyword;
-								else if (mLanguageDefinition.mIdentifiers.count(id) != 0)
+								else if (m_languageDefinition.mIdentifiers.count(id) != 0)
 									token_color = PaletteIndex::KnownIdentifier;
-								else if (mLanguageDefinition.mPreprocIdentifiers.count(id) != 0)
+								else if (m_languageDefinition.mPreprocIdentifiers.count(id) != 0)
 									token_color = PaletteIndex::PreprocIdentifier;
 							}
 							else
 							{
-								if (mLanguageDefinition.mPreprocIdentifiers.count(id) != 0)
+								if (m_languageDefinition.mPreprocIdentifiers.count(id) != 0)
 									token_color = PaletteIndex::PreprocIdentifier;
 							}
 						}
@@ -1064,6 +1069,7 @@ namespace CraftEngine
 						else
 							break;
 					}
+					this->sendRepaintEvent();
 				}
 			}
 
@@ -1114,7 +1120,7 @@ namespace CraftEngine
 			}
 			int _Get_YLen()
 			{
-				return FontSystem::calcFontLineHeight(getFont());
+				return GuiFontSystem::calcFontLineHeight(getFont());
 			}
 		};
 
@@ -1373,6 +1379,8 @@ namespace CraftEngine
 				return SQL();
 			else if (copy == "angelscript")
 				return AngelScript();
+			else if (copy == "cmake")
+				return CMake();
 			else
 				return langDef;
 		}
@@ -1832,6 +1840,56 @@ namespace CraftEngine
 		}
 
 
+		const ColorTextEdit::LanguageDefinition& ColorTextEdit::LanguageDefinition::CMake()
+		{
+			static bool inited = false;
+			static LanguageDefinition langDef;
+			if (!inited)
+			{
+				static const char* const keywords[] = {
+					"cmake_minimum_required", "project", "add_subdirectory", "VERSION", "add_executable", "aux_source_directory", "target_link_libraries", 
+					"add_library", "option", "if", "include_directories", "set", "endif", "else", "install", "enable_testing", "add_test", "set_tests_properties", "include",
+					"check_function_exists", 
+				};
+
+				for (auto& k : keywords)
+					langDef.mKeywords.insert(StringTool::fromUtf8(k));
+
+				static const char* const identifiers[] = {
+					""
+					//"cos", "sin", "tab", "acos", "asin", "atan", "atan2", "cosh", "sinh", "tanh", "log", "log10", "pow", "sqrt", "abs", "ceil", "floor", "fraction", "closeTo", "fpFromIEEE", "fpToIEEE",
+					//"complex", "opEquals", "opAddAssign", "opSubAssign", "opMulAssign", "opDivAssign", "opAdd", "opSub", "opMul", "opDiv"
+				};
+				for (auto& k : identifiers)
+				{
+					Identifier id;
+					id.mDeclaration = "Built-in function";
+					langDef.mIdentifiers.insert(std::make_pair(StringTool::fromUtf8(k), id));
+				}
+
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"L?\\\"(\\\\.|[^\\\"])*\\\"", PaletteIndex::String));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"\\'\\\\?[^\\']\\'", PaletteIndex::String));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", PaletteIndex::Number));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"[+-]?[0-9]+[Uu]?[lL]?[lL]?", PaletteIndex::Number));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"0[0-7]+[Uu]?[lL]?[lL]?", PaletteIndex::Number));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?", PaletteIndex::Number));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"[a-zA-Z_][a-zA-Z0-9_]*", PaletteIndex::Identifier));
+				langDef.mTokenRegexStrings.push_back(std::make_pair<String, PaletteIndex>(L"[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", PaletteIndex::Punctuation));
+
+				langDef.mCommentStart = L"/*";
+				langDef.mCommentEnd = L"*/";
+				//langDef.mSingleLineComment = L"#";
+				//langDef.mPreprocChar = 
+
+				langDef.mCaseSensitive = true;
+				langDef.mAutoIndentation = true;
+
+				langDef.mName = L"CMake";
+
+				inited = true;
+			}
+			return langDef;
+		}
 
 
 		void ColorTextEdit::setTextPaletteStyle(int style)

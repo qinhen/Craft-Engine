@@ -4,15 +4,13 @@
 
 #include "../Common.h"
 
+#include "./core/Callable.h"
 #include "./core/String.h"
 #include "./core/Memory.h"
 #include "./core/Containers.h"
 #include "./core/Thread.h"
-#include "./core/Callable.h"
 
-#include <string_view>                 // Repository: https://github.com/Ubpa/USRefl
-#include <tuple>                       // License: https://github.com/Ubpa/USRefl/blob/master/LICENSE
-#include <type_traits>
+
 
 namespace CraftEngine
 {
@@ -515,16 +513,11 @@ namespace CraftEngine
 
 
 
-		class Configure
-		{
-
-
-		};
 
 
 
 
-		std::vector<uint8_t> readFile(const std::string& filename) 
+		CRAFT_ENGINE_CORE_API std::vector<uint8_t> readFile(const std::string& filename)
 		{
 			std::ifstream file(filename, std::ios::ate | std::ios::binary);
 			if (!file.is_open())
@@ -537,7 +530,7 @@ namespace CraftEngine
 			return buffer;
 		}
 
-		void writeFile(void* data, int size,const std::string& filename) 
+		CRAFT_ENGINE_CORE_API void writeFile(void* data, int size,const std::string& filename)
 		{
 			std::ofstream file(filename, std::ios::binary);
 			if (!file.is_open())
@@ -546,7 +539,7 @@ namespace CraftEngine
 			file.close();
 		}
 
-		std::string readString(const std::string& filename) 
+		CRAFT_ENGINE_CORE_API std::string readString(const std::string& filename)
 		{
 			std::ifstream t(filename);
 			std::stringstream buffer;
@@ -555,7 +548,7 @@ namespace CraftEngine
 			return contents;
 		}
 
-		void writeString(char* str, int size, const std::string& filename) 
+		CRAFT_ENGINE_CORE_API void writeString(char* str, int size, const std::string& filename)
 		{
 			std::ofstream file(filename, std::ios::binary);
 			if (!file.is_open())
@@ -563,7 +556,8 @@ namespace CraftEngine
 			file.write((char*)str, size);
 			file.close();
 		}
-		void writeString(const std::string& str, const std::string& filename)
+
+		CRAFT_ENGINE_CORE_API void writeString(const std::string& str, const std::string& filename)
 		{
 			std::ofstream file(filename, std::ios::binary);
 			if (!file.is_open())
@@ -572,7 +566,7 @@ namespace CraftEngine
 			file.close();
 		}
 
-		std::vector<std::string> readLines(const std::string& filename)
+		CRAFT_ENGINE_CORE_API std::vector<std::string> readLines(const std::string& filename)
 		{
 			std::ifstream t(filename);
 			std::string l;
@@ -582,16 +576,7 @@ namespace CraftEngine
 			return lines;
 		}
 
-		std::vector<std::string> splitLines(const std::string& string)
-		{
-			std::stringstream t(string);
-			std::string l;
-			std::vector<std::string> lines;
-			while (std::getline(t, l))
-				lines.emplace_back(l);
-			return lines;
-		}
-		std::vector<std::string> splitLines(const char* string)
+		CRAFT_ENGINE_CORE_API std::vector<std::string> splitLines(const std::string& string)
 		{
 			std::stringstream t(string);
 			std::string l;
@@ -601,8 +586,17 @@ namespace CraftEngine
 			return lines;
 		}
 
+		CRAFT_ENGINE_CORE_API std::vector<std::string> splitLines(const char* string)
+		{
+			std::stringstream t(string);
+			std::string l;
+			std::vector<std::string> lines;
+			while (std::getline(t, l))
+				lines.emplace_back(l);
+			return lines;
+		}
 
-		std::vector<std::wstring> splitLines(const std::wstring& string)
+		CRAFT_ENGINE_CORE_API std::vector<std::wstring> splitLines(const std::wstring& string)
 		{
 			std::wstringstream t(string);
 			std::wstring l;
@@ -611,7 +605,7 @@ namespace CraftEngine
 				lines.emplace_back(l);
 			return lines;
 		}
-		std::vector<std::wstring> splitLines(const Char* string)
+		CRAFT_ENGINE_CORE_API std::vector<std::wstring> splitLines(const Char* string)
 		{
 			std::wstringstream t(string);
 			std::wstring l;
@@ -621,7 +615,7 @@ namespace CraftEngine
 			return lines;
 		}
 
-		void setUtf8()
+		CRAFT_ENGINE_CORE_API void setUtf8()
 		{
 			std::locale oldlocale = std::locale::global(std::locale("LC_CTYPE=.utf8"));
 		}

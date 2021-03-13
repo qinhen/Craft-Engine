@@ -390,15 +390,15 @@ namespace CraftEngine
 			int  getGroupid()const { return m_group; }
 			int  getMouseEventCatchFlags() { return m_mouseEventCatchFlags; }
 			void setMouseEventCatchFlags(int flags) { m_mouseEventCatchFlags = flags; }
-			void enableMouseEventCatchFlags(int flagbits) { m_mouseEventCatchFlags |= flagbits; }
-			void disableMouseEventCatchFlags(int flagbits) { m_mouseEventCatchFlags &= (m_mouseEventCatchFlags ^ (m_mouseEventCatchFlags & flagbits)); }
+			//void enableMouseEventCatchFlags(int flagbits) { m_mouseEventCatchFlags |= flagbits; }
+			//void disableMouseEventCatchFlags(int flagbits) { m_mouseEventCatchFlags &= (m_mouseEventCatchFlags ^ (m_mouseEventCatchFlags & flagbits)); }
 
-			void    setSize(const Size& size) { m_rect.mSize = size; onResizeEvent({ getSize() }); }
-			Size    getSize()const { return m_rect.mSize; }
-			void    setPos(const Point& point) { m_rect.mOffset = point; }
-			Point   getPos()const { return m_rect.mOffset; }
-			void    setRect(const Rect& rect) { m_rect = rect; onResizeEvent({ getSize() }); }
-			Rect    getRect()const { return m_rect; }
+			void         setSize(const Size& size) { m_rect.mSize = size; onResizeEvent({ getSize() }); }
+			Size const&  getSize()const { return m_rect.mSize; }
+			void         setPos(const Point& point) { m_rect.mOffset = point; }
+			Point const& getPos()const { return m_rect.mOffset; }
+			void         setRect(const Rect& rect) { m_rect = rect; onResizeEvent({ getSize() }); }
+			Rect const&  getRect()const { return m_rect; }
 			int32_t getX()const { return m_rect.mX; }
 			int32_t getY()const { return m_rect.mY; }
 			int32_t getWidth()const { return m_rect.mWidth; }
@@ -406,14 +406,14 @@ namespace CraftEngine
 
 			virtual void move(const Offset& offset) { m_rect.mOffset += offset; }
 		protected:
-			const Offset& getDragOffset()const { return m_dragOffset; }
+			Offset const& getDragOffset()const { return m_dragOffset; }
 			void          setDragOffset(const Offset& offset) { m_dragOffset = offset; }
 		public:
-			const Font& getFont()const { return m_font; }
+			Font const& getFont()const { return m_font; }
 			Font&       getFont() { return m_font; }
 			void        setFont(const Font& font) { m_font = font; }
 		public:
-			const Palette& getPalette()const { return m_palette; }
+			Palette const& getPalette()const { return m_palette; }
 			Palette&       getPalette() { return m_palette; }
 			void           setPalette(const Palette& brash) { m_palette = brash; }
 		public:
@@ -430,7 +430,7 @@ namespace CraftEngine
 			const Layout& getLayout()const { return m_layout; }
 			Layout&       getLayout() { return m_layout; }
 			void          setLayout(const Layout& layout) { m_layout = layout; }
-			void          setLayoutMode(Layout::LayoutMode mode) { m_layout.setMode(mode); }
+			//void          setLayoutMode(Layout::LayoutMode mode) { m_layout.setMode(mode); }
 			void          applyLaoyut()
 			{ 
 				core::ArrayList<Size> sizeList;
@@ -1083,6 +1083,7 @@ namespace CraftEngine
 				mouseEvent.button = button;
 				mouseEvent.type = MouseEvent::eDoubleClicked;
 				mouseEvent.global = m_cursorPos;
+				mouseEvent.widget = m_cursorOnComponent;
 				if (m_cursorOnComponent != nullptr)
 					m_cursorOnComponent->onMouseEvent(mouseEvent);
 
@@ -1090,13 +1091,14 @@ namespace CraftEngine
 				{
 					auto offset = m_cursorPos - m_LButtonDownPoint;
 					// 1.
-					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isDragable() && (m_cursorFocusComponent->isLeftButtonDrag() ? 0 : 1) == button)
+					if ((offset.x != 0 || offset.y != 0) && (m_cursorFocusComponent->isLeftButtonDrag() ? 0 : 1) == button)
 					{
 						MouseEvent mouseEvent;
 						mouseEvent.button = button;
 						mouseEvent.type = MouseEvent::eDragApply;
 						mouseEvent.global = m_cursorPos;
 						mouseEvent.offset = offset;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 					// 2.
@@ -1105,6 +1107,7 @@ namespace CraftEngine
 						mouseEvent.button = button;
 						mouseEvent.type = MouseEvent::eReleased;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->setFocus(false);
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
@@ -1114,6 +1117,7 @@ namespace CraftEngine
 					mouseEvent.button = button;
 					mouseEvent.type = MouseEvent::ePressed;
 					mouseEvent.global = m_cursorPos;
+					mouseEvent.widget = m_cursorFocusComponent;
 					m_cursorFocusComponent = m_cursorOnComponent;
 					updateRootWidget(m_cursorFocusComponent);
 					if (m_cursorFocusComponent != nullptr)
@@ -1215,6 +1219,7 @@ namespace CraftEngine
 					mouseEvent.button = MouseEvent::eNoButton;
 					mouseEvent.type = MouseEvent::eWheel;
 					mouseEvent.offset = Offset(0, offset);
+					mouseEvent.widget = m_cursorOnComponent;
 					m_cursorOnComponent->onWheel(mouseEvent);
 				}
 			}
@@ -1230,26 +1235,28 @@ namespace CraftEngine
 				if (m_cursorFocusComponent != nullptr && m_isLButtonDown && m_cursorFocusComponent->isLeftButtonDrag())
 				{
 					auto offset = m_cursorPos - m_LButtonDownPoint;
-					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isDragable())
+					if ((offset.x != 0 || offset.y != 0))
 					{
 						MouseEvent mouseEvent;
 						mouseEvent.button = MouseEvent::eLeftButton;
 						mouseEvent.type = MouseEvent::eDrag;
 						mouseEvent.global = m_LButtonDownPoint;
 						mouseEvent.offset = offset;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 				}
 				if (m_cursorFocusComponent != nullptr && m_isRButtonDown && !m_cursorFocusComponent->isLeftButtonDrag())
 				{
 					auto offset = m_cursorPos - m_RButtonDownPoint;
-					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isDragable())
+					if ((offset.x != 0 || offset.y != 0))
 					{
 						MouseEvent mouseEvent;
 						mouseEvent.button = MouseEvent::eRightButton;
 						mouseEvent.type = MouseEvent::eDrag;
 						mouseEvent.global = m_RButtonDownPoint;
 						mouseEvent.offset = offset;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 				}
@@ -1286,6 +1293,7 @@ namespace CraftEngine
 					mouseEvent.type = MouseEvent::eDetect;
 					mouseEvent.global = m_cursorPos;
 					mouseEvent.local = m_cursorPos;
+					mouseEvent.widget = cur_component;
 					cur_component = this->onMouseEvent(mouseEvent);
 				}
 				if (cur_component != nullptr && m_cursorOnComponent == cur_component)
@@ -1295,6 +1303,7 @@ namespace CraftEngine
 					mouseEvent.type = MouseEvent::eMoving;
 					mouseEvent.global = m_cursorPos;
 					mouseEvent.offset = offset;
+					mouseEvent.widget = m_cursorOnComponent;
 					m_cursorOnComponent->onMouseEvent(mouseEvent);
 				}
 				else
@@ -1306,6 +1315,7 @@ namespace CraftEngine
 						mouseEvent.button = MouseEvent::eNoButton;
 						mouseEvent.type = MouseEvent::eMoveOut;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorOnComponent;
 						m_cursorOnComponent->setHighlight(false);
 						m_cursorOnComponent->onMouseEvent(mouseEvent);
 					}
@@ -1317,6 +1327,7 @@ namespace CraftEngine
 						mouseEvent.button = MouseEvent::eNoButton;
 						mouseEvent.type = MouseEvent::eMoveIn;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorOnComponent;
 						m_cursorOnComponent->setHighlight(true);
 						m_cursorOnComponent->onMouseEvent(mouseEvent);
 					}
@@ -1330,13 +1341,14 @@ namespace CraftEngine
 				{
 					auto offset = m_cursorPos - m_LButtonDownPoint;
 					// 1.
-					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isDragable() && (m_cursorFocusComponent->isLeftButtonDrag() ? 0 : 1) == button)
+					if ((offset.x != 0 || offset.y != 0) && (m_cursorFocusComponent->isLeftButtonDrag() ? 0 : 1) == button)
 					{
 						MouseEvent mouseEvent;
 						mouseEvent.button = button;
 						mouseEvent.type = MouseEvent::eDragApply;
 						mouseEvent.global = m_cursorPos;
 						mouseEvent.offset = offset;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 					// 2.
@@ -1345,6 +1357,7 @@ namespace CraftEngine
 						mouseEvent.button = button;
 						mouseEvent.type = MouseEvent::eReleased;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->setFocus(false);
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
@@ -1355,6 +1368,7 @@ namespace CraftEngine
 					mouseEvent.button = button;
 					mouseEvent.type = MouseEvent::ePressed;
 					mouseEvent.global = m_cursorPos;
+					mouseEvent.widget = m_cursorFocusComponent;
 					m_cursorFocusComponent = m_cursorOnComponent;
 					updateRootWidget(m_cursorFocusComponent);
 					if (m_cursorFocusComponent != nullptr)
@@ -1375,6 +1389,7 @@ namespace CraftEngine
 							MouseEvent mouseEvent;
 							mouseEvent.button = MouseEvent::eNoButton;
 							mouseEvent.type = MouseEvent::eFocusOut;
+							mouseEvent.widget = m_inputFocusComponent;
 							m_inputFocusComponent->setInputFocus(false);
 							m_inputFocusComponent->onMouseEvent(mouseEvent);
 						}
@@ -1395,6 +1410,7 @@ namespace CraftEngine
 						mouseEvent.type = MouseEvent::eFocusIn;
 						mouseEvent.global = m_cursorPos;
 						mouseEvent.local = m_cursorPos;
+						mouseEvent.widget = m_inputFocusComponent;
 						m_inputFocusComponent = m_cursorOnComponent;
 						updateRootWidget(m_inputFocusComponent);
 						if (m_inputFocusComponent != nullptr)
@@ -1458,6 +1474,7 @@ namespace CraftEngine
 					mouseEvent.button = MouseEvent::eLeftButton;
 					mouseEvent.type = MouseEvent::eReleased;
 					mouseEvent.global = m_cursorPos;
+					mouseEvent.widget = m_cursorFocusComponent;
 					m_cursorFocusComponent->setFocus(false);
 					m_cursorFocusComponent->onMouseEvent(mouseEvent);
 				}
@@ -1469,6 +1486,7 @@ namespace CraftEngine
 						mouseEvent.button = MouseEvent::eLeftButton;
 						mouseEvent.type = MouseEvent::eReleased;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorOnComponent;
 						m_cursorOnComponent->setFocus(false);
 						m_cursorOnComponent->onMouseEvent(mouseEvent);
 					}
@@ -1478,19 +1496,21 @@ namespace CraftEngine
 						mouseEvent.button = MouseEvent::eLeftButton;
 						mouseEvent.type = MouseEvent::eClicked;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 				}
 				if (m_cursorFocusComponent != nullptr && m_isLButtonDown)
 				{
 					auto offset = m_cursorPos - m_LButtonDownPoint;
-					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isDragable() && m_cursorFocusComponent->isLeftButtonDrag())
+					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isLeftButtonDrag())
 					{
 						MouseEvent mouseEvent;
 						mouseEvent.button = MouseEvent::eLeftButton;
 						mouseEvent.type = MouseEvent::eDragApply;
 						mouseEvent.global = m_LButtonDownPoint;
 						mouseEvent.offset = offset;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 				}
@@ -1521,6 +1541,7 @@ namespace CraftEngine
 					mouseEvent.button = MouseEvent::eRightButton;
 					mouseEvent.type = MouseEvent::eReleased;
 					mouseEvent.global = m_cursorPos;
+					mouseEvent.widget = m_cursorFocusComponent;
 					m_cursorFocusComponent->setFocus(false);
 					m_cursorFocusComponent->onMouseEvent(mouseEvent);
 				}
@@ -1531,6 +1552,7 @@ namespace CraftEngine
 						mouseEvent.button = MouseEvent::eRightButton;
 						mouseEvent.type = MouseEvent::eReleased;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorOnComponent;
 						m_cursorOnComponent->setFocus(false);
 						m_cursorOnComponent->onMouseEvent(mouseEvent);
 					}
@@ -1540,18 +1562,20 @@ namespace CraftEngine
 						mouseEvent.button = MouseEvent::eRightButton;
 						mouseEvent.type = MouseEvent::eCallMenu;
 						mouseEvent.global = m_cursorPos;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 				}
 				if (m_cursorFocusComponent != nullptr && m_isLButtonDown && !m_cursorFocusComponent->isLeftButtonDrag())
 				{
 					auto offset = m_cursorPos - m_LButtonDownPoint;
-					if ((offset.x != 0 || offset.y != 0) && m_cursorFocusComponent->isDragable())
+					if ((offset.x != 0 || offset.y != 0))
 					{
 						MouseEvent mouseEvent;
 						mouseEvent.button = MouseEvent::eRightButton;
 						mouseEvent.type = MouseEvent::eDragApply;
 						mouseEvent.offset = offset;
+						mouseEvent.widget = m_cursorFocusComponent;
 						m_cursorFocusComponent->onMouseEvent(mouseEvent);
 					}
 				}
@@ -1570,6 +1594,7 @@ namespace CraftEngine
 					MouseEvent mouseEvent;
 					mouseEvent.button = MouseEvent::eNoButton;
 					mouseEvent.type = MouseEvent::eMoveOut;
+					mouseEvent.widget = m_cursorOnComponent;
 					m_cursorOnComponent->setHighlight(false);
 					m_cursorOnComponent->onMouseEvent(mouseEvent);
 				}

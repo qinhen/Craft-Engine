@@ -9,7 +9,7 @@ namespace CraftEngine
 		class Thread
 		{
 		private:
-			void runningLoop()
+			void RunningLoop()
 			{
 				Command<void> default_task;
 				Command<void>& task = default_task;
@@ -37,7 +37,7 @@ namespace CraftEngine
 		public:
 			Thread()
 			{
-				m_thread = std::thread(&Thread::runningLoop, this);
+				m_thread = std::thread(&Thread::RunningLoop, this);
 			}
 
 			~Thread()
